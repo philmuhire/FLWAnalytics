@@ -1,12 +1,11 @@
-package com.phil.userservice.service;
+package com.phil.flwanalytics.authentication.service;
 
-import com.phil.userservice.domain.Role;
-import com.phil.userservice.domain.User;
-import com.phil.userservice.repo.RoleRepo;
-import com.phil.userservice.repo.UserRepo;
+import com.phil.flwanalytics.authentication.domain.Role;
+import com.phil.flwanalytics.authentication.domain.User;
+import com.phil.flwanalytics.authentication.repo.RoleRepo;
+import com.phil.flwanalytics.authentication.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

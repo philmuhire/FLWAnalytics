@@ -1,8 +1,8 @@
 package com.phil.flwanalytics.authentication.api;
 
-import com.phil.userservice.domain.Role;
-import com.phil.userservice.domain.User;
-import com.phil.userservice.service.UserService;
+import com.phil.flwanalytics.authentication.domain.Role;
+import com.phil.flwanalytics.authentication.domain.User;
+import com.phil.flwanalytics.authentication.service.UserService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

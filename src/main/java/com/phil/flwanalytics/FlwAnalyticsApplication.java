@@ -1,12 +1,15 @@
 package com.phil.flwanalytics;
 
+import com.phil.flwanalytics.analytics.Repo.CountryRepo;
+import com.phil.flwanalytics.analytics.model.Country;
 import com.phil.flwanalytics.authentication.domain.Role;
 import com.phil.flwanalytics.authentication.domain.User;
+import com.phil.flwanalytics.authentication.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,12 +17,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.ArrayList;
 
 @SpringBootApplication
-@EnableCaching
-@RequiredArgsConstructor
-//@EnableSwagger2
+@RequiredArgsConstructor @Slf4j
 public class FlwAnalyticsApplication {
+
+    private final CountryRepo countryRepo;
     public static void main(String[] args) {
-        SpringApplication.run(com.phil.flwanalytics.FlwAnalyticsApplication.class, args);
+        SpringApplication.run(FlwAnalyticsApplication.class, args);
     }
 
 
@@ -27,25 +30,34 @@ public class FlwAnalyticsApplication {
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+
     @Bean
-    CommandLineRunner run(com.phil.flwanalytics.authentication.service.UserService userService) {
+    CommandLineRunner run(UserService userService) {
         return args -> {
-            userService.saveRole(new Role(null, "ROLE_USER"));
-            userService.saveRole(new Role(null, "ROLE_MANAGER"));
-            userService.saveRole(new Role(null, "ROLE_ADMIN"));
-            userService.saveRole(new Role(null, "ROLE_SUPER_ADMIN"));
+            if(userService.getUsers().isEmpty()){
 
-            userService.saveUser(new User(null, "John Travolta", "john", "1234", new ArrayList<>()));
-            userService.saveUser(new User(null, "Will Smith", "will", "1234", new ArrayList<>()));
-            userService.saveUser(new User(null, "Jim Carry", "jim", "1234", new ArrayList<>()));
-            userService.saveUser(new User(null, "Arnold Schwarzenegger", "arnold", "1234", new ArrayList<>()));
+                userService.saveRole(new Role(null, "ROLE_SYS_ADMIN"));
+                userService.saveRole(new Role(null, "ROLE_CTR_ADMIN"));
+                userService.saveRole(new Role(null, "ROLE_CTR_USER"));
 
-            userService.addRoleToUser("john", "ROLE_USER");
-            userService.addRoleToUser("will", "ROLE_MANAGER");
-            userService.addRoleToUser("jim", "ROLE_ADMIN");
-            userService.addRoleToUser("arnold", "ROLE_SUPER_ADMIN");
-            userService.addRoleToUser("arnold", "ROLE_ADMIN");
-            userService.addRoleToUser("arnold", "ROLE_USER");
+                Country country = new Country("Uganda", "Sub sahara");
+                countryRepo.save(country);
+
+                userService.saveUser(new User(null, "John Travolta", "john", "1234", new ArrayList<>(), country ));
+                userService.saveUser(new User(null, "Will Smith", "will", "1234", new ArrayList<>(), country));
+                userService.saveUser(new User(null, "Jim Carry", "jim", "1234", new ArrayList<>(), country));
+                userService.saveUser(new User(null, "Arnold Schwarzenegger", "arnold", "1234", new ArrayList<>(), country));
+
+                userService.addRoleToUser("john", "ROLE_CTR_USER");
+                userService.addRoleToUser("will", "ROLE_CTR_ADMIN");
+                userService.addRoleToUser("jim", "ROLE_SYS_ADMIN");
+                userService.addRoleToUser("arnold", "ROLE_SYS_ADMIN");
+                userService.addRoleToUser("arnold", "ROLE_SYS_ADMIN");
+                userService.addRoleToUser("arnold", "ROLE_CTR_USER");
+            } else{
+                log.info("Sample data has already been initialized");
+            }
         };
     }
 

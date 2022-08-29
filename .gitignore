@@ -1,0 +1,79 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/client/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+/client/coverage
+
+# production
+/build
+/client/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+HELP.md
+target/
+*/target/*
+*/target/**
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+target/classes/application.properties
+target/classes/com/phil/flwanalytics/FlwAnalyticsApplication.class
+target/classes/com/phil/flwanalytics/analytics/model/Activity.class
+target/classes/com/phil/flwanalytics/analytics/model/Country.class
+target/classes/com/phil/flwanalytics/analytics/model/Crop.class
+target/classes/com/phil/flwanalytics/analytics/model/CropActivity.class
+target/classes/com/phil/flwanalytics/analytics/model/CropActivityId.class
+target/classes/com/phil/flwanalytics/analytics/model/Stage.class
+target/classes/com/phil/flwanalytics/analytics/Repo/CountryRepo.class
+target/classes/com/phil/flwanalytics/analytics/services/CountryService.class
+target/classes/com/phil/flwanalytics/analytics/services/impl/CountryServiceImpl.class
+target/classes/com/phil/flwanalytics/authentication/api/UserResource.class
+target/classes/com/phil/flwanalytics/authentication/domain/User.class
+target/classes/com/phil/flwanalytics/authentication/filter/CustomAuthenticationFilter.class
+target/classes/com/phil/flwanalytics/authentication/filter/CustomAuthorizationFilter.class
+target/classes/com/phil/flwanalytics/authentication/security/SecurityConfig.class
+target/classes/com/phil/flwanalytics/authentication/service/UserServiceImpl.class

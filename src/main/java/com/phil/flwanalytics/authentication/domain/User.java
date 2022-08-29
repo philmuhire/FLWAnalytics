@@ -1,5 +1,6 @@
 package com.phil.flwanalytics.authentication.domain;
 
+import com.phil.flwanalytics.analytics.model.Country;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,4 +22,6 @@ public class User {
     private String password;
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Role> roles = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Country country;
 }

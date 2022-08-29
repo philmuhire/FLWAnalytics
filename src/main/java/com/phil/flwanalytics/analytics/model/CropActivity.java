@@ -4,10 +4,8 @@ package com.phil.flwanalytics.analytics.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity(name = "CropActivity")
@@ -17,18 +15,20 @@ import java.util.Objects;
 @Data
 public class CropActivity {
 
-    @EmbeddedId
-    private CropActivityId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "crop_activity_id")
+    public long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("cropId")
+    @ManyToOne
+    @JoinColumn(name = "crop_id")
     private Crop crop;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("activityId")
+    @ManyToOne
+    @JoinColumn(name = "activity_id")
     private Activity activity;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Country country;
 
     private int year;
@@ -37,24 +37,32 @@ public class CropActivity {
     private String causeOfLoss;
     private String treatment;
 
-
+    public CropActivity(Crop crop, Activity activity, Country country, int year, Double lossPercentage, Double lossQuantity, String causeOfLoss, String treatment) {
+        this.crop = crop;
+        this.activity = activity;
+        this.country = country;
+        this.year = year;
+        this.lossPercentage = lossPercentage;
+        this.lossQuantity = lossQuantity;
+        this.causeOfLoss = causeOfLoss;
+        this.treatment = treatment;
+    }
 
     public CropActivity(Crop crop, Activity activity) {
         this.crop = crop;
         this.activity = activity;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CropActivity that = (CropActivity) o;
-        return crop.equals(that.crop) && activity.equals(that.activity);
+        return getId() == that.getId();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(crop, activity);
+        return Objects.hash(getId());
     }
 }

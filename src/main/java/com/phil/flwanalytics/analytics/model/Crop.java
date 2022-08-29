@@ -1,5 +1,8 @@
 package com.phil.flwanalytics.analytics.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.NaturalIdCache;
 
@@ -7,46 +10,39 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 @Entity(name = "crop")
 @Table(name = "crop")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Crop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long id;
+    @Column(unique = true, nullable = false)
     public String name;
     public String description;
 
-    @OneToMany(
-            mappedBy = "crop",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<CropActivity> activities = new ArrayList<>();
+//    @OneToMany(
+//            mappedBy = "crop"
+//    )
+//    private List<CropActivity> cropActivityList = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     public QuantityUnit quantityUnit;
 
-    public void addActivity(Activity activity) {
-        CropActivity cropActivity = new CropActivity(this, activity);
-        activities.add(cropActivity);
-        activity.getCrops().add(cropActivity);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Crop crop = (Crop) o;
+        return getId() == crop.getId();
     }
 
-    public void removeActivity(Activity activity) {
-        for (Iterator<CropActivity> iterator = activities.iterator();
-             iterator.hasNext(); ) {
-            CropActivity cropActivity = iterator.next();
-
-            if (cropActivity.getCrop().equals(this) &&
-                    cropActivity.getActivity().equals(activity)) {
-                iterator.remove();
-                cropActivity.getActivity().getCrops().remove(cropActivity);
-                cropActivity.setCrop(null);
-                cropActivity.setActivity(null);
-            }
-        }
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
-
-
 }
