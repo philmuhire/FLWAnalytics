@@ -20,18 +20,29 @@ import java.util.List;
 public class CropCtrl {
     private final CropService cropService;
     private final CropRepo cropRepo;
+
     @GetMapping("/all")
-    public ResponseEntity<List<Crop>> getCountries(){
+    public ResponseEntity<List<Crop>> getCountries() {
         return ResponseEntity.ok().body((cropService.getAll()));
+    }
+
+    @GetMapping("/singleByAct/{id}")
+    public ResponseEntity<List<?>> getSingleCropByActivity(@PathVariable Long id) {
+        return ResponseEntity.ok().body((cropRepo.summatePercentagePerActivityAndcrop(id)));
+    }
+
+    @GetMapping("/singleByYear/{id}")
+    public ResponseEntity<List<?>> getSingleCropByYear(@PathVariable Long id) {
+        return ResponseEntity.ok().body((cropRepo.summatePercentagePerYearAndcrop(id)));
     }
 
     @PreAuthorize("hasRole('ROLE_SYS_ADMIN')")
     @PostMapping("/add")
-    public ResponseEntity<?>saveCrop(@RequestBody Crop crop) {
+    public ResponseEntity<?> saveCrop(@RequestBody Crop crop) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString());
         try {
             crop = cropService.SaveCrop(crop);
-        } catch (Exception exception){
+        } catch (Exception exception) {
             return (ResponseEntity<?>) ResponseEntity.badRequest().header(exception.getMessage());
         }
         return ResponseEntity.created(uri).body(crop);
@@ -39,12 +50,13 @@ public class CropCtrl {
 
     @PreAuthorize("hasRole('ROLE_SYS_ADMIN') or hasRole('ROLE_CTR_ADMIN')")
     @PostMapping("/{id}")
-    public ResponseEntity<?>getCrop(@PathVariable Long id) {
+    public ResponseEntity<?> getCrop(@PathVariable Long id) {
         Crop crop;
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/crop/getone").toUriString());
+        URI uri = URI
+                .create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/crop/getone").toUriString());
         try {
             crop = cropRepo.getById(id);
-        } catch (Exception exception){
+        } catch (Exception exception) {
             return (ResponseEntity<?>) ResponseEntity.badRequest().header(exception.getMessage());
         }
         return ResponseEntity.ok(crop);
@@ -52,17 +64,19 @@ public class CropCtrl {
 
     @PreAuthorize("hasRole('ROLE_SYS_ADMIN')")
     @GetMapping("/checksysadmin")
-    public String checkingsysadmin(){
+    public String checkingsysadmin() {
         return "sysadminchecked";
     }
+
     @PreAuthorize("hasRole('ROLE_CTR_ADMIN')")
     @GetMapping("/checkctradmin")
-    public String checkctradmin(){
+    public String checkctradmin() {
         return "ctradminchecked";
     }
+
     @PreAuthorize("hasRole('ROLE_CTR_USER')")
     @GetMapping("/checkctruser")
-    public String checkingctruser(){
+    public String checkingctruser() {
         return "ctruserchecked";
     }
 

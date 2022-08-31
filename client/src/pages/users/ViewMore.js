@@ -1,10 +1,10 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { getCurrentEmp } from '../../../services/reducers/EmployeeSlice'
-import profile1 from "../../../assets/img/profile-picture-2.jpg"
+import profile1 from "../../assets/img/profile-picture-2.jpg"
+import { getCurrentUser } from '../../services/reducers/userSlice';
 
 const ViewMore = ({ toggleViewMore, setToggleViewMore }) => {
-  const employee = useSelector(getCurrentEmp);
+  const user = useSelector(getCurrentUser);
   return (
     <div className={`fixed flex items-center align-center bg-gray-500 bg-opacity-50 z-50 show w-full md:inset-0 md:h-full ${toggleViewMore ? "" : " hidden"}`}>
       <div className="relative w-full h-full flex justify-center p-4 items-center md:h-screen">

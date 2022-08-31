@@ -1,18 +1,55 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import BarChart from '../../components/charts/BarChart'
 import Sidebar from '../../layouts/Sidebar'
 import { getUser } from '../../services/reducers/authSlice'
+import { cropActivitySummary, cropPerActivity, cropPerYear } from '../../assets/data'
+import { randomColor } from "randomcolor"
+import PieChart from '../../components/charts/PieChart'
+import Doughnut from '../../components/charts/DoughnutChart'
+import DoughnutChart from '../../components/charts/DoughnutChart'
 
 const Overview = () => {
     const [currentTab, setCurrentTab] = useState("overview")
     const [toggleUsagePeriod, setToggleUsagePeriod] = useState(false)
+    const [rangeValue, setRangeValue] = useState(2005)
 
     const auth = JSON.parse(localStorage.getItem(process.env.REACT_APP_AUTH))
     const user = useSelector(getUser);
     const navigate = useNavigate()
+    let years = [...new Set(cropActivitySummary.map(x => x.year))]
 
-    
+    // let chartData = [];
+    const [cropData, setCropData] = useState({
+        labels: [...new Set(cropActivitySummary.map(x => x.year))],
+        datasets: [{
+            label: "loss quantity(tons)",
+            data: cropActivitySummary.filter(x => [...new Set(cropActivitySummary.map(x => x.year))].includes(x.year)).slice(0, years.length).map(x => parseFloat(x.sum.toFixed(1))),
+            backgroundColor: randomColor({ luminosity: 'light', format: 'hex', count: years.length }),
+            // borderColor: randomColor({luminosity: 'light', format: 'hex',count: years.length})
+        },
+        ],
+    })
+
+    const [singleCropByAct, setSingleCropByAct] = useState({
+        labels: cropPerActivity.map(x => x.activity.name.replaceAll("/", ", ") + "(" + x.activity.stage.name + ")"),
+        datasets: [{
+            label: "Loss quantity per activity",
+            data: cropPerActivity.map(x => parseFloat(x.sum.toFixed(2))),
+            backgroundColor: randomColor({ luminosity: 'dark', format: 'hex', count: cropPerActivity.length })
+        }]
+    })
+
+    const [singleCropByYear, setSingleCropByYear] = useState({
+        labels: cropPerYear.map(x =>x.year.toString()),
+        datasets: [{
+            label: "Loss quantity per activity",
+            data: cropPerYear.map(x => parseFloat(x.sum.toFixed(2))),
+            backgroundColor: randomColor({count: cropPerYear.length })
+        }]
+    })
+
 
     useEffect(() => {
         if (auth === null) {
@@ -25,17 +62,19 @@ const Overview = () => {
             else {
                 console.log("is logged in")
                 console.log(auth)
+                console.log(cropPerActivity.map(x => x.activity.name.replaceAll("/", ", ") + "(" + x.activity.stage.name + ")"))
             }
         }
-    }, [user])
+    }, [auth])
+
 
     return (
         <div className='min-h-screen flex flex-row bg-gray-100'>
             <Sidebar currentTab={currentTab} />
-            <div className='flex flex-grow flex-col justify-start px-7 py-4 '>
+            <div className='flex flex-grow flex-col justify-start px-7 py-4 h-screen overflow-y-scroll'>
                 <div className='mx-2 my-2 '>
                     <div className='flex justify-between'>
-                        <h3 className='font-bold text-sm'>Employee Overview</h3>
+                        <h3 className='font-bold text-sm'>FLW Overview</h3>
                         <div className='flex justify-between items-center space-x-2'>
                             <span className='pl-2 btn_toggler block'>
                                 <button onClick={() => setToggleUsagePeriod(!toggleUsagePeriod)}
@@ -135,39 +174,15 @@ const Overview = () => {
                             </div>
                         </div>
                     </div>
-                    {/* <div className='w-1/3 px-4 border shadow-md ml-4  py-2'>
-                        <div className='grid justify-items-center '>
-                            <div className='w-20 h-20 rounded-full border-2 bg-green-600 p-1'>
-                            </div>
-                            <h4 className='text-sm text-gray-700 font-bold'>Murenzi Jack</h4>
-                            <h4 className='text-xs text-gray-400 font-bold mt-1'>UI/UX designer</h4>
-                        </div>
-
-                        <div className=' px-8 pb-4 rounded-lg flex justify-between'>
-                            <div className='flex-col justify-center'>
-                                <p className='font-bold text-sm text-center mt-6'>765k</p>
-                                <p className='text-gray-500 text-center text-xs'>Activity time</p>
-                            </div>
-                            <div className='flex-col justify-center text-red-700'>
-                                <p className='font-bold text-sm  text-center mt-6'>28%</p>
-                                <p className=' text-center text-xs'>Missing time</p>
-                            </div>
-                            <div className='flex-col justify-center text-green-400'>
-                                <p className='font-bold text-sm text-center mt-6'>765k</p>
-                                <p className=' text-center text-xs'>Work Activity</p>
-                            </div>
-
-                        </div>
-                        <div className='flex justify-around'>
-                            <button type="button" class="text-white bg-gray-800 hover:bg-gray-100 hover:border hover:border-gray-800  hover:text-gray-800 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-1.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2">
-                                View Profile
-                            </button>
-                            <button type="button" class="text-white bg-white border border-gray-800 text-gray-800 hover:text-gray-100 hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-1.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2">
-                                Edit Profile
-                            </button>
-                        </div>
-                    </div> */}
+                    <DoughnutChart chartData={singleCropByYear} />
                 </div>
+                {/* <div class="slider">
+                    <input type="range" min="2000" max="2021" value={rangeValue} onChange={(e) => { setRangeValue(e.target.value) }} />
+                    <p id="rangeValue">{rangeValue}</p>
+                </div> */}
+                <BarChart chartData={cropData} />
+                <PieChart chartData={singleCropByAct} />
+
             </div>
         </div>
     )
