@@ -8,11 +8,14 @@ const initialState = {
     error: null
 }
 
-
-export const login = createAsyncThunk('auth/login', async (loginState) => {
+export const login = createAsyncThunk('auth/login',  async (loginState) => {
     console.log("within login")
     console.log(loginState)
-    const response = await axios.post(BASE_URL+"/api/login", loginState)
+    const response = await axios.post(BASE_URL+"/api/login", null, { params: {...loginState} }, {headers: {
+            "Accept": "application/x-www-form-urlencoded",
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Access-Control-Allow-Origin": "*"
+        }})
     return response.data
 })
 

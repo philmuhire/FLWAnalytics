@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import profile1 from "../assets/img/profile-picture-4.jpg"
-import profile2 from "../assets/img/profile-picture-2.jpg"
-import profile3 from "../assets/img/profile-picture-3.jpg"
-import profile4 from "../assets/img/profile-picture-5.jpg"
+import logo from "../assets/img/FLWAnalytics-3.png"
 import ErrorAlert from '../components/ErrorAlert'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAuthStatus, login } from '../services/reducers/authSlice'
@@ -28,7 +25,7 @@ const SignIn = () => {
     const handleSubmit = () => {
         try {
             dispatch(login(loginState))
-            navigate("/admin/employees")
+            navigate("/admin/overview")
         } catch (error) {
             setErrorHandler({ hasError: true, errorMessage: error })
         }
@@ -37,7 +34,7 @@ const SignIn = () => {
 
     useEffect(() => {
         if (status === "success") {
-            navigate('/admin/employees')
+            navigate('/admin/overview')
         }
 
     }, [status])
@@ -46,16 +43,16 @@ const SignIn = () => {
         if (auth !== null) {
             console.log("is logged in")
             console.log(auth)
-            navigate('/admin/employees')
+            navigate('/admin/overview')
         }
     }, [auth])
 
 
 
     return (
-        <div className='w-full h-screen bg-blue-600 flex justify-around items-center space-around'>
+        <div className='w-full h-screen bg-gradient-to-tr from-dark-green to-light-green flex justify-around items-center space-around'>
             <div className=' w-1/3 px-2 py-3'>
-                <h1 className='font-medium text-xl tracking-wider text-white'>Welcome Back to <span className='font-extrabold text-3xl block'>EMS</span> </h1>
+                {/* <h1 className='font-medium text-xl tracking-wider text-white'>Welcome Back to <span className='font-extrabold text-3xl block'>EMS</span> </h1>
                 <p className='text-gray-200 font-light'>
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                     Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
@@ -66,7 +63,8 @@ const SignIn = () => {
                     <img class="w-10 h-10 rounded-full border-2 border-white dark:border-gray-800" src={profile3} alt="" />
                     <img class="w-10 h-10 rounded-full border-2 border-white dark:border-gray-800" src={profile4} alt="" />
                     <p className='text-sm text-gray-200 item-center pl-8'>3k+ people have joined us, now it's your turn</p>
-                </div>
+                </div> */}
+                <img src={logo}/>
             </div>
             <div className='bg-white w-1/3 h-3/5 rounded-md'>
                 <h2 className='px-10 py-2 font-semibold text-2xl'>Sign In</h2>

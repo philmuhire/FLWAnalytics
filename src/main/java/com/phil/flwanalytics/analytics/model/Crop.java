@@ -33,6 +33,12 @@ public class Crop {
     @Enumerated(EnumType.STRING)
     public QuantityUnit quantityUnit;
 
+    public Crop(String name, String description, QuantityUnit quantityUnit) {
+        this.name = name;
+        this.description = description;
+        this.quantityUnit = quantityUnit;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

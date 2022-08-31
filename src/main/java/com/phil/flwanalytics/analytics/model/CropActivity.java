@@ -65,4 +65,19 @@ public class CropActivity {
     public int hashCode() {
         return Objects.hash(getId());
     }
+
+    @Override
+    public String toString() {
+        return "CropActivity{" +
+                "id=" + id +
+                ", crop=" + crop.getName() +
+                ", activity=" + activity.getName() +
+                ", country=" + country.getName() +
+                ", year=" + year +
+                ", lossPercentage=" + lossPercentage +
+                ", lossQuantity=" + lossQuantity +
+                ", causeOfLoss='" + causeOfLoss + '\'' +
+                ", treatment='" + treatment + '\'' +
+                '}';
+    }
 }

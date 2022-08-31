@@ -1,5 +1,6 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Overview from '../pages/dashboard/Overview'
 import SignIn from '../pages/SignIn'
 
 const index = () => {
@@ -7,11 +8,11 @@ const index = () => {
         <BrowserRouter>
             <Routes>
                 <Route path='/' element={<SignIn />} />
-                {/* <Route
+                <Route
                     exact
-                    path='/admin/employees'
-                    element={<Dashboard />}
-                /> */}
+                    path='/admin/overview'
+                    element={<Overview />}
+                />
             </Routes>
         </BrowserRouter>
     )

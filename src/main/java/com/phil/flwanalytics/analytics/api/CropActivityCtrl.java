@@ -20,6 +20,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/cropactivity")
 public class CropActivityCtrl {
     private final CropActivityService cropActivityService;
@@ -28,6 +29,10 @@ public class CropActivityCtrl {
     @GetMapping("/all")
     public ResponseEntity<List<CropActivity>> getCropActivity(){
         return ResponseEntity.ok().body((cropActivityService.getAll()));
+    }
+    @GetMapping("/summary")
+    public ResponseEntity<List<?>> getCropSummary(){
+        return ResponseEntity.ok().body((cropActivityRepo.summatePercentagePerYearAndcrop()));
     }
 
     @PreAuthorize("hasRole('ROLE_SYS_ADMIN') or hasRole('ROLE_CTR_ADMIN')")

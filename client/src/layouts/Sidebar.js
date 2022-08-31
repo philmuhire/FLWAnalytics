@@ -20,7 +20,7 @@ const Sidebar = ({currentTab}) => {
     }, [])
     
     return (
-        <aside className="h-screen overflow-y-auto w-60 bg-gradient-to-r from-[#11998e] to-[#38ef7d] ">
+        <aside className="h-screen overflow-y-auto w-60 bg-gradient-to-b from-dark-green to-light-green ">
             <div className="flex items-center px-8 text-blue-600 bg-white h-16">
                 <a href="/admin/dashboard" className="font-bold">FLWAnalytics</a>
             </div>
