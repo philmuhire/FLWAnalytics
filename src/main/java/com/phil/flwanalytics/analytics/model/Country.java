@@ -25,7 +25,7 @@ public class Country {
 //    @OneToMany(
 //            mappedBy = "country"
 //    )
-//    private List<CropActivity> cropActivityList = new ArrayList<>();
+//    private List<FoodProcess> cropActivityList = new ArrayList<>();
 //    @OneToMany(
 //            mappedBy = "country"
 //    )

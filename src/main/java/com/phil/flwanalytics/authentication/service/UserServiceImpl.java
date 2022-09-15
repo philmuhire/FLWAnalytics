@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepo.findByUsername(username);
+        User user = userRepo.findByEmail(username);
         if(user == null) {
             log.error("User not found in the database");
             throw new UsernameNotFoundException("User not found in the database");
@@ -37,13 +37,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             user.getRoles().forEach(role -> {
                 authorities.add(new SimpleGrantedAuthority(role.getName()));
             });
-            return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
+            return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
         }
     }
 
     @Override
     public User saveUser(User user) {
-        log.info("saving new user: {} to database", user.getName());
+        log.info("saving new user: {} to database", user.getLastname());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepo.save(user);
     }
@@ -55,9 +55,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void addRoleToUser(String username, String roleName) {
-        log.info("adding role {} to user {}", roleName, username);
-        User user = userRepo.findByUsername(username);
+    public void addRoleToUser(String email, String roleName) {
+        log.info("adding role {} to user {}", roleName, email);
+        User user = userRepo.findByEmail(email);
         Role role = roleRepo.findByName(roleName);
         user.getRoles().add(role);
 
@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User getUser(String username) {
         log.info("getting user {}", username);
-        return userRepo.findByUsername(username);
+        return userRepo.findByEmail(username);
     }
 
     @Override

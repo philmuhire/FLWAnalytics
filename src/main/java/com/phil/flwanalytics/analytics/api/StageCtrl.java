@@ -1,8 +1,6 @@
 package com.phil.flwanalytics.analytics.api;
 
 import com.phil.flwanalytics.analytics.Repo.StageRepo;
-import com.phil.flwanalytics.analytics.model.Activity;
-import com.phil.flwanalytics.analytics.model.Crop;
 import com.phil.flwanalytics.analytics.model.Stage;
 import com.phil.flwanalytics.analytics.services.StageService;
 import lombok.RequiredArgsConstructor;

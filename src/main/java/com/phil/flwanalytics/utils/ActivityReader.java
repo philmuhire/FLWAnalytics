@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ActivityReader {
-    public static List<Activity> readBooksFromCSV(String fileName) {
-        List<Activity> datalist = new ArrayList<>();
+    public static List<Process> readBooksFromCSV(String fileName) {
+        List<Process> datalist = new ArrayList<>();
         Path pathToFile = Paths.get(fileName);
         try (BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.UTF_8)) {
             String line = br.readLine();
@@ -19,7 +19,7 @@ public class ActivityReader {
             while (line != null) {
 
                 String[] attributes = line.split(",");
-                Activity myData = createData(attributes);
+                Process myData = createData(attributes);
                 if (index == 0) {
                     ++index;
                     line = br.readLine();
@@ -35,12 +35,12 @@ public class ActivityReader {
         return datalist;
     }
 
-    public static Activity createData(String[] metadata) {
+    public static Process createData(String[] metadata) {
         String name = metadata[0];
         String stage = metadata[1];
         if (name.startsWith("\""))
             name = name.substring(name.indexOf("\"") + 1);
-        return new Activity(name, stage);
+        return new Process(name, stage);
     }
 
 }

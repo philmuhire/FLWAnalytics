@@ -1,28 +1,33 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
-
+import { validToken } from "../../utils/utils";
 
 const initialState = {
     stages: [],
     current: {},
     status: "idle", //idle   | loading   | succeeded     |failed
-    error: null
+    error: null,
 }
+
+
+const config = {
+    headers: { Authorization: `Bearer ${validToken()}` }
+};
 
 export const addNewStage = createAsyncThunk('api/stage/add', async (stage) => {
     console.log("within add stage")
     console.log(stage)
-    const response = await axios.post("http://localhost:8080/api/stage/add", stage)
+    const response = await axios.post("http://localhost:8080/api/stage/add", stage, config)
     return response.data
 })
 
 export const fetchStages = createAsyncThunk('api/stage/all', async () => {
-    const response = await axios.get("http://localhost:8080/api/stage/all")
+    const response = await axios.get("http://localhost:8080/api/stage/all", config)
     return response.data
 })
 
 export const getOneActivity = createAsyncThunk('api/getOneStage', async (id) => {
-    const response = await axios.get("http://localhost:8080/api/stage/" + id)
+    const response = await axios.get("http://localhost:8080/api/stage/" + id, config)
     return response.data
 })
 
@@ -36,7 +41,7 @@ const stageSlice = createSlice({
                 state.status = 'loading'
             })
             .addCase(addNewStage.fulfilled, (state, action) => {
-                state.status = "succeeded"
+                state.status = "succeeded-addition"
                 state.stages.push(action.payload)
                 state.current = action.payload
             })

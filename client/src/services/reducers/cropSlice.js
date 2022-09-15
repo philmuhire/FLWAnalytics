@@ -1,38 +1,44 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
 import { BASE_URL } from "../../config/constants";
+import {validToken} from "../../utils/utils";
 
 const initialState = {
     allCrops: [],
     cropPerActivity: [],
     cropPerYear: [],
-    current: {
-        id: 962,
-        name: "Wheat",
-        description: null,
-        quantityUnit: "KILOGRAM_kg"
-    },
+    current: {},
+    first: {},
     status: "idle", //idle   | loading   | succeeded     |failed
     error: null
 }
 
+const config = {
+    headers: { Authorization: `Bearer ${validToken()}` }
+};
+
 export const addNewCrop = createAsyncThunk('api/crop/add', async (crop) => {
     console.log("within add crop")
     console.log(crop)
-    const response = await axios.post("http://localhost:8080/api/crop/add", crop)
+    const response = await axios.post("http://localhost:8080/api/crop/add", crop, config)
     return response.data
 })
 export const fetchAllCrops = createAsyncThunk('api/crop/all', async () => {
-    const response = await axios.get("http://localhost:8080/api/crop/all")
+    const response = await axios.get("http://localhost:8080/api/crop/all", config)
     return response.data
 })
 
 export const fetchCropPerActivity = createAsyncThunk('api/crop/singleByAct/', async (id) => {
-    const response = await axios.get("http://localhost:8080/api/crop/singleByAct/" + id)
+    const response = await axios.get("http://localhost:8080/api/crop/singleByAct/" + id, config)
     return response.data
 })
 export const fetchCropPerYear = createAsyncThunk('api/crop/singleByYear/', async (id) => {
-    const response = await axios.get("http://localhost:8080/api/crop/singleByYear/" + id)
+    const response = await axios.get("http://localhost:8080/api/crop/singleByYear/" + id, config)
+    return response.data
+})
+
+export const fetchFirst = createAsyncThunk('api/crop/one', async () => {
+    const response = await axios.get("http://localhost:8080/api/crop/one", config)
     return response.data
 })
 
@@ -53,6 +59,21 @@ const cropSlice = createSlice({
                 state.allCrops = action.payload
             })
             .addCase(fetchAllCrops.rejected, (state, action) => {
+                state.status = 'failed'
+                state.error = action.error.message
+                console.log(state.error)
+            })
+
+            //fetching first
+
+            .addCase(fetchFirst.pending, (state, action) => {
+                state.status = 'loading'
+            })
+            .addCase(fetchFirst.fulfilled, (state, action) => {
+                state.status = "'got first'"
+                state.first = action.payload
+            })
+            .addCase(fetchFirst.rejected, (state, action) => {
                 state.status = 'failed'
                 state.error = action.error.message
                 console.log(state.error)
@@ -94,11 +115,12 @@ const cropSlice = createSlice({
 
 })
 
-export const getAllCrops = (state) => state.crop.allCrops;
-export const getCropPerActivity = (state) => state.crop.cropPerActivity;
-export const getCropPerYear = (state) => state.crop.cropPerYear;
-export const getCropStatus = (state) => state.crop.status;
-export const getCropError = (state) => state.crop.error;
-export const getCurrentCrop = (state) => state.crop.current;
+export const getAllCrops = (state) => state.crops.allCrops;
+export const getFirst = (state) => state.crops.first;
+export const getCropPerActivity = (state) => state.crops.cropPerActivity;
+export const getCropPerYear = (state) => state.crops.cropPerYear;
+export const getCropStatus = (state) => state.crops.status;
+export const getCropError = (state) => state.crops.error;
+export const getCurrentCrop = (state) => state.crops.current;
 
 export default cropSlice.reducer;

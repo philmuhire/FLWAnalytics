@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
+import { validToken } from "../../utils/utils";
 
 const initialState = {
     activities: [],
@@ -8,20 +9,24 @@ const initialState = {
     error: null
 }
 
+const config = {
+    headers: { Authorization: `Bearer ${validToken()}` }
+};
+
 export const addNewActivity = createAsyncThunk('api/activity/add', async (activity) => {
     console.log("within add activity")
     console.log(activity)
-    const response = await axios.post("http://localhost:8080/api/activity/add", activity)
+    const response = await axios.post("http://localhost:8080/api/activity/add", activity, config)
     return response.data
 })
 
 export const fetchactivities = createAsyncThunk('api/activity/all', async () => {
-    const response = await axios.get("http://localhost:8080/api/activity/all")
+    const response = await axios.get("http://localhost:8080/api/activity/all", config)
     return response.data
 })
 
 export const getOneActivity = createAsyncThunk('api/getOneActivity', async (id) => {
-    const response = await axios.get("http://localhost:8080/api/activity/" + id)
+    const response = await axios.get("http://localhost:8080/api/activity/" + id, config)
     return response.data
 })
 

@@ -49,6 +49,7 @@ export const authSlice = createSlice({
 
 })
 
+
 export const getUser = (state) => state.auth.user
 export const getAuthStatus = (state) => state.auth.status;
 export const getAuthError = (state) => state.auth.error;

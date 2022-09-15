@@ -22,7 +22,7 @@ const Sidebar = ({currentTab}) => {
     return (
         <aside className="h-screen overflow-y-auto w-60 bg-gradient-to-b from-dark-green to-light-green ">
             <div className="flex items-center px-8 text-blue-600 bg-white h-16">
-                <a href="/admin/dashboard" className="font-bold">FLWAnalytics</a>
+                <a href="/admin/overview" className="font-bold">FLWAnalytics</a>
             </div>
             <SidebarLinks currentTab={currentTab}/>
         </aside>

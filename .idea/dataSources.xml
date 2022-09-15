@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="flwanalytics" uuid="68b21db8-87fb-4609-b28b-5f2d5fa520dc">
+    <data-source source="LOCAL" name="flwanalyticsv2" uuid="d66411b1-aace-40fc-bb2e-ae6cdc61d6ad">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/flwanalytics</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/flwanalyticsv2</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
