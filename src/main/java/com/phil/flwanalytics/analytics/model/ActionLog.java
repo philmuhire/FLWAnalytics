@@ -20,5 +20,6 @@ public class ActionLog {
     private String username;
     private String action;
     private String description;
+    private String AffectedId;
 
 }

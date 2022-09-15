@@ -8,7 +8,7 @@ const DoughnutChart = ({chartData}) => {
         console.log(chartData.datasets[0].data)
     },[])
   return (
-    <div style={{width: 400}}>
+    <div style={{width: 300}}>
         <Doughnut data={chartData} />
     </div>
     // <div>hhh</div>

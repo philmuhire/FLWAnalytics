@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface StageRepo extends JpaRepository<Stage, Long> {
     Stage getByName(String name);
+
 }

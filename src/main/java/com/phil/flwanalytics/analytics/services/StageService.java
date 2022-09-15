@@ -1,6 +1,5 @@
 package com.phil.flwanalytics.analytics.services;
 
-import com.phil.flwanalytics.analytics.model.Crop;
 import com.phil.flwanalytics.analytics.model.Stage;
 
 import java.util.List;

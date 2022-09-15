@@ -26,7 +26,7 @@ public class Stage {
         this.description = description;
     }
 //    @OneToMany(mappedBy="stage")
-//    private Set<Activity> activitySet  = new HashSet<>();
+//    private Set<Process> activitySet  = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {

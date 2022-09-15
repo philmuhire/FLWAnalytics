@@ -8,10 +8,9 @@ const PieChart = ({chartData}) => {
         console.log(chartData.datasets[0].data)
     },[])
   return (
-    <div style={{width: 500}}>
+    <div style={{width: 400}}>
         <Pie data={chartData} />
     </div>
-    // <div>hhh</div>
     )
 }
 
