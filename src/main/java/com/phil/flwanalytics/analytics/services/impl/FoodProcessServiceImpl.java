@@ -27,12 +27,12 @@ public class FoodProcessServiceImpl implements FoodProcessService {
     private final FoodRepo foodRepo;
     private final CountryRepo countryRepo;
     @Override
-    public FoodProcess addCropActivity(FoodProcessPayload cap) {
+    public void addCropActivity(FoodProcessPayload cap) {
         Food food = foodRepo.getById(Long.parseLong(cap.getFoodId()));
         Country country = countryRepo.findByName(cap.getCountryName());
         Process process = processRepo.getById(Long.parseLong(cap.getProcessId()));
 
-        return foodProcessRepo.save(new FoodProcess(food, process, country, cap.getYear(), cap.getProduce(), cap.getLossPercentage(), cap.getProduce()*(cap.getLossPercentage()/100) , cap.getCauseOfLoss(), cap.getTreatment()));
+        foodProcessRepo.save(new FoodProcess(food, process, country, cap.getYear(), cap.getProduce(), cap.getLossPercentage(), cap.getProduce()*(cap.getLossPercentage()/100) , cap.getCauseOfLoss(), cap.getTreatment()));
     }
 
     @Override
@@ -44,5 +44,14 @@ public class FoodProcessServiceImpl implements FoodProcessService {
     public List<FoodProcess> findNActivities(Integer page, Integer size) {
         return foodProcessRepo.findAll(PageRequest.of(page, size)).getContent();
 //        return foodPagination.findAll(PageRequest.of(page, size)).getContent();
+    }
+
+    public List<FoodProcess> findNActivitiesPerActivities(Integer page, Integer size) {
+        return foodProcessRepo.findAll(PageRequest.of(page, size)).getContent();
+//        return foodPagination.findAll(PageRequest.of(page, size)).getContent();
+    }
+
+    public List<FoodProcess> findNProcessPerProcess(Long id) {
+        return foodProcessRepo.findAllByProcessId(id);
     }
 }

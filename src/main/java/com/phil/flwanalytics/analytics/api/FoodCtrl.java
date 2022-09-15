@@ -29,10 +29,13 @@ public class FoodCtrl {
         return ResponseEntity.ok().body((foodRepo.findFirstByOrderByNameDesc()));
     }
 
+
+
     @GetMapping("/singleByAct/{id}")
     public ResponseEntity<List<?>> getSingleFoodByActivity(@PathVariable Long id) {
         return ResponseEntity.ok().body((foodRepo.summatePercentagePerProcessAndFood(id)));
     }
+
 
     @GetMapping("/singleByYear/{id}")
     public ResponseEntity<List<?>> getSingleFoodByYear(@PathVariable Long id) {
@@ -51,8 +54,31 @@ public class FoodCtrl {
         return ResponseEntity.created(uri).body(food);
     }
 
+    @PreAuthorize("hasRole('ROLE_SYS_ADMIN')")
+    @PutMapping ("/edit")
+    public ResponseEntity<?> editCrop(@RequestBody Food food) {
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString());
+        try {
+            food = foodService.SaveCrop(food);
+        } catch (Exception exception) {
+            return (ResponseEntity<?>) ResponseEntity.badRequest().header(exception.getMessage());
+        }
+        return ResponseEntity.created(uri).body(food);
+    }
+
+    @PreAuthorize("hasRole('ROLE_SYS_ADMIN')")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?>deleteFoodById(@PathVariable Long id) {
+        try{
+            foodRepo.deleteById(id);
+            return ResponseEntity.ok().body("deleted");
+        } catch (Exception e){
+            return  ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @PreAuthorize("hasRole('ROLE_SYS_ADMIN') or hasRole('ROLE_CTR_ADMIN')")
-    @PostMapping("/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getCrop(@PathVariable Long id) {
         Food food;
         URI uri = URI

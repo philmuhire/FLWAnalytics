@@ -1,9 +1,11 @@
 package com.phil.flwanalytics.analytics.api;
 
 import com.phil.flwanalytics.analytics.Payload.ProcessPayload;
+import com.phil.flwanalytics.analytics.Repo.FoodProcessRepo;
 import com.phil.flwanalytics.analytics.Repo.ProcessRepo;
 import com.phil.flwanalytics.analytics.Repo.StageRepo;
 import com.phil.flwanalytics.analytics.model.Process;
+import com.phil.flwanalytics.analytics.model.Stage;
 import com.phil.flwanalytics.analytics.services.ProcessService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +24,7 @@ public class ProcessCtrl {
     private final ProcessService processService;
     private final StageRepo stageRepo;
     private final ProcessRepo processRepo;
+    private final FoodProcessRepo foodProcessRepo;
 
     @PreAuthorize("hasRole('ROLE_SYS_ADMIN')")
     @GetMapping("/all")
@@ -47,6 +50,18 @@ public class ProcessCtrl {
         return ResponseEntity.created(uri).body(process);
     }
 
+    @PreAuthorize("hasRole('ROLE_SYS_ADMIN')")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?>deleteProcessById(@PathVariable Long id) {
+        try{
+            foodProcessRepo.deleteAllByProcessId(id);
+            processRepo.deleteById(id);
+            return ResponseEntity.ok().body("deleted");
+        } catch (Exception e){
+            return  ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @PreAuthorize("hasRole('ROLE_SYS_ADMIN') or hasRole('ROLE_CTR_ADMIN')")
     @PostMapping("/{id}")
     public ResponseEntity<?>getActivity(@PathVariable Long id) {
@@ -58,5 +73,16 @@ public class ProcessCtrl {
             return (ResponseEntity<?>) ResponseEntity.badRequest().header(exception.getMessage());
         }
         return ResponseEntity.ok(process);
+    }
+
+    @PreAuthorize("hasRole('ROLE_SYS_ADMIN')")
+    @PutMapping("/edit")
+    public ResponseEntity<?>editProcess(@RequestBody Process process) {
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/stage/edit").toUriString());
+        try {
+            return ResponseEntity.created(uri).body(processRepo.save(process));
+        } catch (Exception exception){
+            return (ResponseEntity<?>) ResponseEntity.badRequest().header(exception.getMessage());
+        }
     }
 }

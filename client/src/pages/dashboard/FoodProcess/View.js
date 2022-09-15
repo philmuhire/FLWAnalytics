@@ -82,6 +82,9 @@ const View = () => {
                                     <th className="text-xs font-semibold text-gray-500 text-left">
                                         lossQuantity(tons)
                                     </th>
+                                    <th className="text-xs font-semibold text-gray-500 text-left">
+                                        lossQuantity(tons)
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>

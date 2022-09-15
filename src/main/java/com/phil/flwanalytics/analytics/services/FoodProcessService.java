@@ -8,7 +8,8 @@ import java.util.List;
 
 @Service
 public interface FoodProcessService {
-    FoodProcess addCropActivity(FoodProcessPayload foodProcessPayload);
+    void addCropActivity(FoodProcessPayload foodProcessPayload);
     List<FoodProcess> getAll();
     List<FoodProcess> findNActivities(Integer page, Integer size);
+    List<FoodProcess> findNProcessPerProcess(Long id);
 }
