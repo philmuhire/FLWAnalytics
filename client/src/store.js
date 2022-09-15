@@ -3,6 +3,7 @@ import activitySlice from "./services/reducers/activitySlice";
 import authSlice from "./services/reducers/authSlice";
 import countrySlice from "./services/reducers/countrySlice";
 import cropSlice from "./services/reducers/cropSlice";
+import foodProcessSlice from "./services/reducers/foodProcessSlice";
 import stageSlice from "./services/reducers/stageSlice";
 import userSlice from "./services/reducers/userSlice";
 
@@ -13,7 +14,8 @@ export const store = configureStore({
         crops: cropSlice,
         activities: activitySlice,
         stages: stageSlice,
-        country: countrySlice
+        country: countrySlice,
+        foodprocess: foodProcessSlice,
 
     }
 })

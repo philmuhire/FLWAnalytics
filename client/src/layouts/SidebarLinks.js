@@ -112,11 +112,11 @@ const SidebarLinks = ({ currentTab }) => {
                 </svg>
                 <span className='text-left text-xs pl-5'>Countries</span>
             </a>
-            <a className={`font-medium transform ${currentTab === "reports" ? "bg-white text-blue-600 border-r-4 border-green-600" : ""} focus:bg-white focus:text-blue-600 hover:bg-white hover:text-blue-500 hover:translate-x-2 transition-transform ease-in duration-200 text-gray-200 cursor-pointer flex justify-start items-center pl-5 py-2.5 rounde-sm `}>
+            <a href='/admin/analytics' className={`font-medium transform ${currentTab === "reports" ? "bg-white text-blue-600 border-r-4 border-green-600" : ""} focus:bg-white focus:text-blue-600 hover:bg-white hover:text-blue-500 hover:translate-x-2 transition-transform ease-in duration-200 text-gray-200 cursor-pointer flex justify-start items-center pl-5 py-2.5 rounde-sm `}>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
-                <span className='text-left text-xs pl-5'>Reports</span>
+                <span className='text-left text-xs pl-5'>Analytics</span>
             </a>
         </div>
     )

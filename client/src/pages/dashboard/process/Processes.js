@@ -6,7 +6,7 @@ import Sidebar from '../../../layouts/Sidebar';
 import { fetchactivities, getActError, getActStatus, selectAllActivities } from '../../../services/reducers/activitySlice';
 
 
-const Activities = () => {
+const Processes = () => {
     const [currentTab, setCurrentTab] = useState("activities")
     const dispatch = useDispatch()
 
@@ -117,4 +117,4 @@ const Activities = () => {
     )
 }
 
-export default Activities
+export default Processes
