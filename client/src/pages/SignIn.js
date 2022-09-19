@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import logo from "../assets/img/FLWAnalytics-3.png"
 import ErrorAlert from '../components/ErrorAlert'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAuthStatus, login } from '../services/reducers/authSlice'
+import { getAuthError, getAuthStatus, login } from '../services/reducers/authSlice'
 import { useNavigate } from 'react-router-dom'
 
 
@@ -13,6 +13,7 @@ const SignIn = () => {
     const [errorHandler, setErrorHandler] = useState({ hasError: false, errorMessage: "" })
     const auth = JSON.parse(localStorage.getItem(process.env.REACT_APP_AUTH))
     const status = useSelector(getAuthStatus);
+    const error = useSelector(getAuthError)
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -68,7 +69,7 @@ const SignIn = () => {
             </div>
             <div className='bg-white w-1/3 h-3/5 rounded-md'>
                 <h2 className='px-10 py-2 font-semibold text-2xl'>Sign In</h2>
-                <ErrorAlert errorHandler={errorHandler} />
+                {status === "failed"?<ErrorAlert message={error} />:""}
                 <form className='flex  flex-col items-center py-3'>
                     <div className="relative z-0 w-4/5 mb-6 group">
                         <input type="email" name="username" onChange={(e) => { handleChange(e) }}

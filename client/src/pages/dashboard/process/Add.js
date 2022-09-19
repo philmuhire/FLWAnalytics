@@ -1,26 +1,30 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import ErrorAlert from '../../../components/ErrorAlert';
-import { addNewStage, getStageError, getStageStatus } from '../../../services/reducers/stageSlice';
-import { validateCrop, validateStage } from '../../../utils/functions';
+import { addNewProcess, fetchactivities, getActError, getActStatus } from '../../../services/reducers/activitySlice';
+import { fetchFirst } from '../../../services/reducers/cropSlice';
+import { fetchStages, selectAllStages } from '../../../services/reducers/stageSlice';
+import { validateProcess } from '../../../utils/functions';
 
-const Add = ({ togAddStgMdl, setTogAddStgMdl }) => {
+const Add = ({ togAddProMdl, setTogAddProMdl }) => {
     const dispatch = useDispatch();
     const [submit, setSubmit] = useState(false)
     const [formErrors, setFormErrors] = useState({ 1: 1 })
 
+    const stages = useSelector(selectAllStages)
 
-    const [stageState, setStageState] = useState({});
+
+    const [processState, setProcessState] = useState({});
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setStageState({ ...stageState, [name]: value })
+        setProcessState({ ...processState, [name]: value })
     };
     const handleSubmit = () => {
-        setFormErrors(validateStage(stageState));
+        setFormErrors(validateProcess(processState));
     }
 
-    const status = useSelector(getStageStatus)
-    const error = useSelector(getStageError)
+    const status = useSelector(getActStatus)
+    const error = useSelector(getActError)
 
 
     useEffect(() => {
@@ -38,7 +42,7 @@ const Add = ({ togAddStgMdl, setTogAddStgMdl }) => {
         if (submit) {
             console.log("submitting")
             try {
-                dispatch(addNewStage(stageState));
+                dispatch(addNewProcess(processState));
             } catch (err) {
                 console.log(err)
             }
@@ -47,26 +51,31 @@ const Add = ({ togAddStgMdl, setTogAddStgMdl }) => {
 
 
     useEffect(() => {
-        if (status === "succeeded-addstage") {
+        if (status === "succeeded-addprocess") {
             console.log("got here")
             document.getElementById("savestage").reset()
-            setTogAddStgMdl(false)
-            setFormErrors({1:1})
+            setTogAddProMdl(false)
+            dispatch(fetchactivities())
+            setFormErrors({ 1: 1 })
         }
     }, [status])
+
+    useEffect(() => {
+        dispatch(fetchStages())
+    }, [])
 
 
 
 
     return (
-        <div className={`fixed flex items-center align-center bg-gray-500 bg-opacity-50 z-50 show w-full md:inset-0 md:h-full ${togAddStgMdl ? "" : " hidden"}`}>
+        <div className={`fixed flex items-center align-center bg-gray-500 bg-opacity-50 z-50 show w-full md:inset-0 md:h-full ${togAddProMdl ? "" : " hidden"}`}>
             <div className="relative w-full h-full flex justify-center p-4 items-center md:h-screen">
                 <div className="relative bg-white rounded-lg w-1/4 shadow dark:bg-gray-700">
                     <div className="flex items-center justify-between p-5 border-b rounded-t dark:border-gray-600">
                         <h3 className="text-sm font-bold text-center text-gray-900 dark:text-white">
-                            Add Stage
+                            Add Process
                         </h3>
-                        <button type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" onClick={() => setTogAddStgMdl(false)}>
+                        <button type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" onClick={() => setTogAddProMdl(false)}>
                             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                         </button>
                     </div>
@@ -96,6 +105,20 @@ const Add = ({ togAddStgMdl, setTogAddStgMdl }) => {
                             </label>
                             <p className="text-xs text-red-500">{formErrors.description}</p>
 
+                        </div>
+                        <div className="relative z-0 w-4/5 mb-3 group">
+                            <select name="stageId" onChange={(e) => { handleChange(e) }}
+                                className="block text-sm pl-2 py-2.5 px-0 w-full text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                placeholder=" " required="" autoComplete='off' >
+                                <option className='text-xs' value="">Select stage</option>
+                                {
+                                    stages.length > 0 ? (
+                                        stages.map(stage =>
+                                            <option className='text-xs' value={stage.id}>{stage.name}</option>
+                                        )) : ""
+                                }
+                            </select>
+                            <p className="text-xs text-red-500">{formErrors.stageId}</p>
                         </div>
 
                         <div className="w-5/6 flex justify-end items-center">

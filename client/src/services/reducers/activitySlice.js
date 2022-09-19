@@ -13,11 +13,28 @@ const config = {
     headers: { Authorization: `Bearer ${validToken()}` }
 };
 
-export const addNewActivity = createAsyncThunk('api/activity/add', async (activity) => {
-    console.log("within add activity")
-    console.log(activity)
-    const response = await axios.post("http://localhost:8080/api/activity/add", activity, config)
-    return response.data
+export const addNewProcess = createAsyncThunk('api/activity/add', async (process, { rejectWithValue }) => {
+    console.log("within add process")
+    console.log(process)
+    let response;
+    try {
+        response = await axios.post("http://localhost:8080/api/activity/add", process, config)
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error.response.data)
+    }
+})
+
+export const editProcess = createAsyncThunk('api/activity/edit', async (process, { rejectWithValue }) => {
+    console.log("within edit process")
+    console.log(process)
+    let response;
+    try {
+        response = await axios.put("http://localhost:8080/api/activity/edit", process, config)
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error.response.data)
+    }
 })
 
 export const fetchactivities = createAsyncThunk('api/activity/all', async () => {
@@ -33,22 +50,42 @@ export const getOneActivity = createAsyncThunk('api/getOneActivity', async (id) 
 const activitySlice = createSlice({
     name: "activities",
     initialState,
-    reducers: {},
+    reducers: {
+        setCurrentProcess: (state, action)=>{
+            console.log("setting current")
+            state.current = action.payload
+        }
+    },
     extraReducers(builder) {
         builder
-            .addCase(addNewActivity.pending, (state, action) => {
+            .addCase(addNewProcess.pending, (state, action) => {
                 state.status = 'loading'
             })
-            .addCase(addNewActivity.fulfilled, (state, action) => {
-                state.status = "succeeded"
-                state.activities.push(action.payload)
-                state.current = action.payload
+            .addCase(addNewProcess.fulfilled, (state, action) => {
+                state.status = "succeeded-addprocess"
+                // console.log("in success add process")
+                // console.log(action.payload)
+                // state.activities.push(action.payload)
+                // state.current = action.payload
             })
-            .addCase(addNewActivity.rejected, (state, action) => {
+            .addCase(addNewProcess.rejected, (state, action) => {
                 state.status = "failed"
                 state.error = action.error.message
                 console.log(state.error)
 
+            })
+
+            .addCase(editProcess.pending, (state, action) => {
+                state.status = 'loading'
+            })
+            .addCase(editProcess.fulfilled, (state, action) => {
+                state.status = "succeeded-editprocess"
+                console.log("edit succeess")
+            })
+            .addCase(editProcess.rejected, (state, action) => {
+                state.status = "failed"
+                state.error = action.payload.message
+                console.log(state.error)
             })
 
             .addCase(fetchactivities.pending, (state, action) => {
@@ -71,6 +108,8 @@ export const selectAllActivities = (state) => state.activities.activities;
 export const getActStatus = (state) => state.activities.status;
 export const getActError = (state) => state.activities.error;
 export const getCurrentAct = (state) => state.activities.current;
+
+export const {setCurrentProcess} = activitySlice.actions;
 
 
 

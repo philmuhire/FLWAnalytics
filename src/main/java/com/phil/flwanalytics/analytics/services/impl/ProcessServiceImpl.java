@@ -1,5 +1,6 @@
 package com.phil.flwanalytics.analytics.services.impl;
 
+import com.phil.flwanalytics.analytics.Payload.ProcessEditPayload;
 import com.phil.flwanalytics.analytics.Payload.ProcessPayload;
 import com.phil.flwanalytics.analytics.Repo.ProcessRepo;
 import com.phil.flwanalytics.analytics.Repo.StageRepo;
@@ -22,14 +23,20 @@ public class ProcessServiceImpl implements ProcessService {
     private final StageRepo stageRepo;
 
     @Override
-    public Process saveActivity(ProcessPayload ap) {
+    public void saveActivity(ProcessPayload ap) {
         Stage stage = stageRepo.getById(Long.parseLong(ap.getStageId()));
         Process process = new Process(ap.getName(), ap.getDescription(), stage);
         System.out.println(process.getStage().getName());
-        return processRepo.save(process);
+        processRepo.save(process);
     }
 
-
+    @Override
+    public void editActivity(ProcessEditPayload ape) {
+        Stage stage = stageRepo.getById(Long.parseLong(ape.getStageId()));
+        Process process = new Process(ape.getId(), ape.getName(), ape.getDescription(), stage);
+        System.out.println(process.getStage().getName());
+        processRepo.save(process);
+    }
 
     @Override
     public List<Process> getAll() {

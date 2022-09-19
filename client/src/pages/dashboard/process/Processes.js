@@ -3,12 +3,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import SearchBar from '../../../components/SearchBar';
 import Sidebar from '../../../layouts/Sidebar';
 
-import { fetchactivities, getActError, getActStatus, selectAllActivities } from '../../../services/reducers/activitySlice';
+import { fetchactivities, getActError, getActStatus, selectAllActivities, setCurrentProcess } from '../../../services/reducers/activitySlice';
+import Add from './Add';
+import Edit from './Edit';
 
 
 const Processes = () => {
     const [currentTab, setCurrentTab] = useState("activities")
     const dispatch = useDispatch()
+
+    const [togAddProMdl, setTogAddProMdl] = useState(false)
+    const [togEditProMdl, setTogEditProMdl] = useState(false)
 
     const activities = useSelector(selectAllActivities);
     const status = useSelector(getActStatus);
@@ -18,6 +23,11 @@ const Processes = () => {
         dispatch(fetchactivities())
     }, [])
 
+    const handleEdit = (act) =>{
+        dispatch(setCurrentProcess({...act}))
+        setTogEditProMdl(true)
+    }
+
 
     return (
         <div className='min-h-screen flex flex-row bg-gray-100'>
@@ -26,7 +36,7 @@ const Processes = () => {
                 <SearchBar />
                 <div className='mx-2 my-2 '>
                     <div className='flex justify-between'>
-                    <h3 className='font-bold text-sm'>Activities Overview</h3>
+                    <h3 className='font-bold text-sm'>Processes Overview</h3>
 
                         <div className='flex justify-between items-center space-x-2'>
                             <span className='pl-2 btn_toggler block'>
@@ -42,7 +52,7 @@ const Processes = () => {
                                     </ul>
                                 </div>
                             </span>
-                            <a  class="text-white bg-blue-700 hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-1.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2">
+                            <a onClick={()=>{setTogAddProMdl(true)}}  class="text-white bg-blue-700 hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-1.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
                                 </svg>
@@ -75,34 +85,31 @@ const Processes = () => {
                                         <td className="py-1">
                                             <span className='pl-3'>{act.name.replaceAll("/", ", ")}</span>
                                         </td>
-                                        <td>{act.description}</td>
-                                        <td>{act.stage.name}</td>
-                                        <td className="text-right flex justify-end items-center space-x-3">
-                                            <div
-                                                data-tooltip-target="tooltip-edit"
-                                                // onClick={() => {
-                                                //     handleEdit(emb.id);
-                                                // }}
-                                                className="relative text-yellow-800 cursor-pointer hover:text-yellow-400 transition delay-150 duration-300"
-                                            >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    className="h-4 w-4"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor"
-                                                >
-                                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                                                </svg>
-                                                <div
-                                                    id="tooltip-edit"
-                                                    role="tooltip"
-                                                    className="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip dark:bg-gray-700"
-                                                >
-                                                    edit
-                                                    <div className="tooltip-arrow" data-popper-arrow></div>
+                                        <td>{act.description? act.description:"N/A"}</td>
+                                        <td>{act.stage? act.stage.name:"N/A"}</td>
+                                        <td className=''>
+
+                                            <div className='flex justify-end items-end'>
+                                                <div className='bg-gray-300 rounded-md p-1 w-16 h-8 flex space-x-2'>
+                                                    <div
+                                                    onClick={()=>{handleEdit(act)}}
+                                                        data-tooltip-target="tooltip-view"
+                                                        className="text-yellow-500 p-1 w-1/2 rounded-md bg-white cursor-pointer hover:bg-white hover:text-yellow-700 transition delay-150 duration-300"
+                                                    >
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                                        </svg>
+                                                        <div
+                                                            id="tooltip-view"
+                                                            role="tooltip"
+                                                            className="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip dark:bg-gray-700"
+                                                        >
+                                                            Edit
+                                                            <div className="tooltip-arrow" data-popper-arrow></div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-
                                         </td>
                                     </tr>
                                 )
@@ -112,6 +119,9 @@ const Processes = () => {
                         </tbody>
                     </table>
                 </div>
+
+                <Add togAddProMdl={togAddProMdl} setTogAddProMdl={setTogAddProMdl} />
+                <Edit togEditProMdl={togEditProMdl} setTogEditProMdl={setTogEditProMdl} />
             </div>
         </div>
     )

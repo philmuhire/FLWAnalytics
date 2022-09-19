@@ -75,6 +75,19 @@ table tr {
   border: none;
 }
 
+/* @media print
+{    
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+}
+@media print {
+  .hidden-print {
+    display: none !important;
+  }
+} */
+
 /* table tr:nth-child(even) td {
   ...
 } */

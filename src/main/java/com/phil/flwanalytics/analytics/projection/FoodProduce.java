@@ -9,6 +9,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class FoodProduce {
+    Long id;
     Food food;
     Country country;
     Double produce;

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import SidebarLink from '../components/SidebarLink'
 import { useNavigate } from "react-router-dom"
 import { useDispatch } from 'react-redux/es/hooks/useDispatch'
-import {checkPath, useEffectOnce} from "../utils/utils"
+import { checkPath, useEffectOnce } from "../utils/utils"
 import profile1 from "../assets/img/profile-picture-2.jpg"
 import { logout } from '../services/reducers/authSlice'
 
@@ -32,12 +32,12 @@ const SidebarLinks = ({ currentTab }) => {
             }
         }
     })
- 
+
     const handleLogout = () => {
-        try{
+        try {
             dispatch(logout())
             navigate('/')
-        } catch(error) {
+        } catch (error) {
             console.log(error.message)
         }
     }
@@ -63,7 +63,7 @@ const SidebarLinks = ({ currentTab }) => {
                     </li>
                     <hr />
                     <li>
-                        <a href="#" onClick={()=>{handleLogout()}} class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-xs font-medium">
+                        <a href="#" onClick={() => { handleLogout() }} class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-xs font-medium">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline mr-2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 3l8.735 8.735m0 0a.374.374 0 11.53.53m-.53-.53l.53.53m0 0L21 21M14.652 9.348a3.75 3.75 0 010 5.304m2.121-7.425a6.75 6.75 0 010 9.546m2.121-11.667c3.808 3.807 3.808 9.98 0 13.788m-9.546-4.242a3.733 3.733 0 01-1.06-2.122m-1.061 4.243a6.75 6.75 0 01-1.625-6.929m-.496 9.05c-3.068-3.067-3.664-7.67-1.79-11.334M12 12h.008v.008H12V12z" />
                             </svg>
@@ -79,7 +79,7 @@ const SidebarLinks = ({ currentTab }) => {
                 </svg>
                 <span className='text-left text-xs pl-5'>Overview</span>
             </a>
-            <a href='/admin/crops' className={`font-medium transform ${currentTab === "crops" ? "bg-white text-blue-600 border-r-4 border-blue-600" : ""} focus:bg-white focus:text-blue-600 hover:bg-white hover:text-blue-500 hover:translate-x-2 transition-transform ease-in duration-200 text-gray-200 cursor-pointer flex justify-start items-center pl-5 py-2.5 rounde-sm `} >
+            <a href='/admin/foods' className={`font-medium transform ${currentTab === "crops" ? "bg-white text-blue-600 border-r-4 border-blue-600" : ""} focus:bg-white focus:text-blue-600 hover:bg-white hover:text-blue-500 hover:translate-x-2 transition-transform ease-in duration-200 text-gray-200 cursor-pointer flex justify-start items-center pl-5 py-2.5 rounde-sm `} >
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
@@ -112,7 +112,7 @@ const SidebarLinks = ({ currentTab }) => {
                 </svg>
                 <span className='text-left text-xs pl-5'>Countries</span>
             </a>
-            <a href='/admin/analytics' className={`font-medium transform ${currentTab === "reports" ? "bg-white text-blue-600 border-r-4 border-green-600" : ""} focus:bg-white focus:text-blue-600 hover:bg-white hover:text-blue-500 hover:translate-x-2 transition-transform ease-in duration-200 text-gray-200 cursor-pointer flex justify-start items-center pl-5 py-2.5 rounde-sm `}>
+            <a href='/admin/analytics' className={`font-medium transform ${currentTab === "analytics" ? "bg-white text-blue-600 border-r-4 border-green-600" : ""} focus:bg-white focus:text-blue-600 hover:bg-white hover:text-blue-500 hover:translate-x-2 transition-transform ease-in duration-200 text-gray-200 cursor-pointer flex justify-start items-center pl-5 py-2.5 rounde-sm `}>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
