@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
 import { validToken } from "../../utils/utils";
+import { BASE_URL } from "../../config/constants";
+
 
 const initialState = {
     stages: [],
@@ -19,7 +21,7 @@ export const addNewStage = createAsyncThunk('api/stage/add', async (stage, { rej
     console.log(stage)
     let response;
     try {
-        response = await axios.post("http://localhost:8080/api/stage/add", stage, config)
+        response = await axios.post(BASE_URL+"/api/stage/add", stage, config)
         return response.data
     } catch (error) {
         return rejectWithValue(error.response.data)
@@ -31,7 +33,7 @@ export const editStage = createAsyncThunk('api/stage/edit', async (stage, { reje
     console.log(stage)
     let response;
     try {
-        response = await axios.put("http://localhost:8080/api/stage/edit", stage, config)
+        response = await axios.put(BASE_URL+"/api/stage/edit", stage, config)
         return response.data
     } catch (error) {
         return rejectWithValue(error.response.data)
@@ -39,12 +41,12 @@ export const editStage = createAsyncThunk('api/stage/edit', async (stage, { reje
 })
 
 export const fetchStages = createAsyncThunk('api/stage/all', async () => {
-    const response = await axios.get("http://localhost:8080/api/stage/all", config)
+    const response = await axios.get(BASE_URL+"/api/stage/all", config)
     return response.data
 })
 
 export const getOneActivity = createAsyncThunk('api/getOneStage', async (id) => {
-    const response = await axios.get("http://localhost:8080/api/stage/" + id, config)
+    const response = await axios.get(BASE_URL+"/api/stage/" + id, config)
     return response.data
 })
 

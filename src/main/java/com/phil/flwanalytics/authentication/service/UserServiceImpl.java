@@ -1,5 +1,6 @@
 package com.phil.flwanalytics.authentication.service;
 
+import com.phil.flwanalytics.analytics.Repo.CountryRepo;
 import com.phil.flwanalytics.authentication.domain.Role;
 import com.phil.flwanalytics.authentication.domain.User;
 import com.phil.flwanalytics.authentication.repo.RoleRepo;
@@ -18,17 +19,21 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Service @RequiredArgsConstructor @Transactional @Slf4j
+@Service
+@RequiredArgsConstructor
+@Transactional
+@Slf4j
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepo userRepo;
     private final RoleRepo roleRepo;
+    private final CountryRepo countryRepo;
     private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepo.findByEmail(username);
-        if(user == null) {
+        if (user == null) {
             log.error("User not found in the database");
             throw new UsernameNotFoundException("User not found in the database");
         } else {
@@ -37,7 +42,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             user.getRoles().forEach(role -> {
                 authorities.add(new SimpleGrantedAuthority(role.getName()));
             });
-            return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
+            return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
+                    authorities);
         }
     }
 
@@ -74,6 +80,5 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         log.info("fetching all users");
         return userRepo.findAll();
     }
-
 
 }

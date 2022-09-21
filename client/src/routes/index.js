@@ -21,11 +21,6 @@ const index = () => {
                 />
                 <Route
                     exact
-                    path='/admin/analytics'
-                    element={<View />}
-                />
-                <Route
-                    exact
                     path='/admin/users'
                     element={<Users />}
                 />
@@ -48,6 +43,11 @@ const index = () => {
                     exact
                     path='/admin/countries'
                     element={<Country />}
+                />
+                <Route
+                    exact
+                    path='/admin/analytics'
+                    element={<View />}
                 />
             </Routes>
         </BrowserRouter>

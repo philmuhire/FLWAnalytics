@@ -48,7 +48,7 @@ const Overview = () => {
 
     const cropPerAct = useSelector(getCropPerActivity);
     const singleCropByAct = {
-        labels: cropPerAct.map(x => x.activity.name.replaceAll("/", ", ") + "(" + x.activity.stage.name + ")"),
+        labels: cropPerAct.map(x => x.process.name.replaceAll("/", ", ") + "(" + x.process.stage.name + ")"),
         datasets: [{
             label: "Loss quantity per activity",
             data: cropPerAct.map(x => parseFloat(x.sum.toFixed(2))),
@@ -105,7 +105,7 @@ const Overview = () => {
                     <div className='flex justify-between'>
                         <h3 className='font-bold text-sm'>FLW Overview</h3>
                         <div className='flex justify-between items-center space-x-2'>
-                            <span className='pl-2 btn_toggler block'>
+                            {/* <span className='pl-2 btn_toggler block'>
                                 <button onClick={() => setToggleUsagePeriod(!toggleUsagePeriod)}
                                     className="flex items-center justify-between w-full py-2 pl-3 pr-4 text-sm font-normal text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">This Month
                                     <svg className="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20"
@@ -123,7 +123,7 @@ const Overview = () => {
                                         </li>
                                     </ul>
                                 </div>
-                            </span>
+                            </span> */}
                             <button type="button"
                                 class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-1.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
@@ -218,7 +218,7 @@ const Overview = () => {
 
 
                     <div className='w-1/3'>
-                        <h3 className='font-bold text-sm'>Food loss loss Per Year</h3>
+                        <h3 className='font-bold text-sm'>Food Productivity Per Year</h3>
                         <label htmlFor="underline_select" className="sr-only">Underline select</label>
                         <select id="underline_select" onChange={(e) => { handleCropByYearChange(e) }}
                             className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">
@@ -251,7 +251,7 @@ const Overview = () => {
                         <BarChart chartData={cropData} />
                     </div>
                     <div className='w-1/3'>
-                        <h3 className='font-bold text-sm'>Food Loss Per Activity</h3>
+                        <h3 className='font-bold text-sm'>Food Productivity Per Process</h3>
                         <label htmlFor="underline_select" className="sr-only">Underline select</label>
                         <select id="underline_select" onChange={(e) => { handleCropByActivityChange(e) }}
                             className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">

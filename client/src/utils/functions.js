@@ -20,6 +20,27 @@ export const validateCrop = (values) => {
   return errors;
 };
 
+export const validateUser = (values) => {
+  console.log("...crop state values up for validation")
+  console.log(values)
+  const errors = {};
+  if (!values.firstname) {
+    errors.firstname = "firstname is required!";
+  }
+  if (!values.lastname) {
+    errors.lastname = "lastname is required!";
+  }
+  if (!values.email) {
+    errors.email = "email is required!";
+  }
+  if (!values.password) {
+    errors.password = "password is required!";
+  }
+  
+
+  return errors;
+};
+
 export const validateStage = (values) => {
   console.log("...stage state values up for validation")
   console.log(values)

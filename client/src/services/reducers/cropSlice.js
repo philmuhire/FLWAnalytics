@@ -22,7 +22,7 @@ export const addNewCrop = createAsyncThunk('api/crop/add', async (crop, { reject
     console.log(crop)
     let response;
     try {
-        response = await axios.post("http://localhost:8080/api/crop/add", crop, config)
+        response = await axios.post(BASE_URL+"/api/crop/add", crop, config)
         return response.data
     } catch (error) {
         return rejectWithValue(error.response.data)
@@ -34,28 +34,28 @@ export const editCrop = createAsyncThunk('api/crop/edit', async (crop, { rejectW
     console.log(crop)
     let response;
     try {
-        response = await axios.put("http://localhost:8080/api/crop/edit", crop, config)
+        response = await axios.put(BASE_URL+"/api/crop/edit", crop, config)
         return response.data
     } catch (error) {
         return rejectWithValue(error.response.data)
     }
 })
 export const fetchAllCrops = createAsyncThunk('api/crop/all', async () => {
-    const response = await axios.get("http://localhost:8080/api/crop/all", config)
+    const response = await axios.get(BASE_URL+"/api/crop/all", config)
     return response.data
 })
 
 export const fetchCropPerActivity = createAsyncThunk('api/crop/singleByAct/', async (id) => {
-    const response = await axios.get("http://localhost:8080/api/crop/singleByAct/" + id, config)
+    const response = await axios.get(BASE_URL+"/api/crop/singleByAct/" + id, config)
     return response.data
 })
 export const fetchCropPerYear = createAsyncThunk('api/crop/singleByYear/', async (id) => {
-    const response = await axios.get("http://localhost:8080/api/crop/singleByYear/" + id, config)
+    const response = await axios.get(BASE_URL+"/api/crop/singleByYear/" + id, config)
     return response.data
 })
 
 export const fetchFirst = createAsyncThunk('api/crop/one', async () => {
-    const response = await axios.get("http://localhost:8080/api/crop/one", config)
+    const response = await axios.get(BASE_URL+"/api/crop/one", config)
     return response.data
 })
 

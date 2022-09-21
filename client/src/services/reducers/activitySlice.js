@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
+import { BASE_URL } from "../../config/constants";
 import { validToken } from "../../utils/utils";
 
 const initialState = {
@@ -18,7 +19,7 @@ export const addNewProcess = createAsyncThunk('api/activity/add', async (process
     console.log(process)
     let response;
     try {
-        response = await axios.post("http://localhost:8080/api/activity/add", process, config)
+        response = await axios.post(BASE_URL+"/api/activity/add", process, config)
         return response.data
     } catch (error) {
         return rejectWithValue(error.response.data)
@@ -30,7 +31,7 @@ export const editProcess = createAsyncThunk('api/activity/edit', async (process,
     console.log(process)
     let response;
     try {
-        response = await axios.put("http://localhost:8080/api/activity/edit", process, config)
+        response = await axios.put(BASE_URL+"/api/activity/edit", process, config)
         return response.data
     } catch (error) {
         return rejectWithValue(error.response.data)
@@ -38,12 +39,12 @@ export const editProcess = createAsyncThunk('api/activity/edit', async (process,
 })
 
 export const fetchactivities = createAsyncThunk('api/activity/all', async () => {
-    const response = await axios.get("http://localhost:8080/api/activity/all", config)
+    const response = await axios.get(BASE_URL+"/api/activity/all", config)
     return response.data
 })
 
 export const getOneActivity = createAsyncThunk('api/getOneActivity', async (id) => {
-    const response = await axios.get("http://localhost:8080/api/activity/" + id, config)
+    const response = await axios.get(BASE_URL+"/api/activity/" + id, config)
     return response.data
 })
 

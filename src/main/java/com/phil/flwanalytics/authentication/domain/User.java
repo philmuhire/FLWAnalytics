@@ -27,4 +27,5 @@ public class User {
     private Collection<Role> roles = new ArrayList<>();
     @ManyToOne(fetch = FetchType.EAGER)
     private Country country;
+    private Boolean status;
 }

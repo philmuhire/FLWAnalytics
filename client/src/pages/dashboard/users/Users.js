@@ -3,25 +3,36 @@ import { useDispatch, useSelector } from 'react-redux';
 import profile1 from "../../../assets/img/profile-picture-2.jpg"
 import SearchBar from '../../../components/SearchBar';
 import Sidebar from '../../../layouts/Sidebar';
-import { fetchUsers, getUserError, getUserStatus, selectAllUsers } from '../../../services/reducers/userSlice';
+import { fetchUsers, getUserError, getUserStatus, selectAllUsers, setCurrent } from '../../../services/reducers/userSlice';
+import { useEffectOnce } from '../../../utils/utils';
+import Add from './Add';
+import Edit from './Edit';
 import ViewMore from './ViewMore';
 
 const Users = () => {
     const [currentTab, setCurrentTab] = useState("users")
     const [toggleUsagePeriod, setToggleUsagePeriod] = useState(false)
     const [toggleViewMore, setToggleViewMore] = useState(false)
+    const [toggleAddUserMdl, setToggleAddUserMdl] = useState(false)
+    const [toggleEditUserMdl, setToggleEditUserMdl] = useState(false)
     const dispatch = useDispatch()
 
     const users = useSelector(selectAllUsers);
     const status = useSelector(getUserStatus);
     const error = useSelector(getUserError);
 
-    useEffect(() => {
+    useEffectOnce(() => {
         dispatch(fetchUsers())
     }, [])
 
-    const handleViewMore = (id) =>{
+    const handleViewMore = (id) => {
         setToggleViewMore(true)
+    }
+    
+
+    const handleEdit = (user) => {
+        dispatch(setCurrent(user))
+        setToggleEditUserMdl(true)
     }
 
 
@@ -35,19 +46,17 @@ const Users = () => {
                         <h3 className='font-bold text-sm'>Users Overview</h3>
                         <div className='flex justify-between items-center space-x-2'>
                             <span className='pl-2 btn_toggler block'>
-                                <button
+                                {/* <button
                                     className="flex items-center justify-between w-full py-2 pl-3 pr-4 text-sm font-normal text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">This Month
                                     <svg className="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                                 </button>
                                 <div className={`z-10 bg-white absolute divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700 dark:divide-gray-600 ${toggleUsagePeriod ? "" : "hidden div_toggle"}`}>
                                     <ul className="py-1 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
-                                        {/* <li>
-                                            <a href="#" className={`block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-500  `} >none</a>
-                                        </li> */}
+                                       
                                     </ul>
-                                </div>
+                                </div> */}
                             </span>
-                            <a href='/admin/employees/new' class="text-white bg-blue-700 hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-1.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2">
+                            <a onClick={()=>{setToggleAddUserMdl(true)}} class="cursor-pointer text-white bg-blue-700 hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-1.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
                                 </svg>
@@ -85,66 +94,36 @@ const Users = () => {
                                     <tr className="border-t-2  border-gray-300 text-sm text-gray-700">
                                         <td className="py-1">
                                             <img class="w-8 h-8 inline-block rounded-full border-2 border-white dark:border-gray-800" src={profile1} alt="" />
-                                            <span className='pl-3'>{user.firstname} {user.lastname}</span>
+                                            <span className='pl-3'>{user.firstname} </span>
                                         </td>
+                                        <td>{user.lastname}</td>
                                         <td>{user.email}</td>
-                                        <td>{user.role}</td>
+                                        <td>{user.roles[0].name}</td>
                                         <td>{user.country.name}</td>
                                         <td className="text-right flex justify-end items-center space-x-3">
-                                            <div
-                                                data-tooltip-target="tooltip-view"
-                                                onClick={() => {
-                                                    handleViewMore(user.id);
-                                                  }}
-                                                className="text-blue-800 cursor-pointer hover:text-blue-400 transition delay-150 duration-300"
-                                            >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    className="h-4 w-4"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor"
-                                                >
-                                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                                                    <path
-                                                        fill-rule="evenodd"
-                                                        d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
-                                                        clip-rule="evenodd"
-                                                    />
-                                                </svg>
-                                                <div
-                                                    id="tooltip-view"
-                                                    role="tooltip"
-                                                    className="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip dark:bg-gray-700"
-                                                >
-                                                    view more
-                                                    <div className="tooltip-arrow" data-popper-arrow></div>
+
+                                            <div className='flex justify-end items-end'>
+                                                <div className='bg-gray-300 rounded-md p-1 w-16 h-7 flex space-x-2'>
+                                                    <div
+                                                        onClick={() => { handleEdit(user) }}
+                                                        data-tooltip-target="tooltip-view"
+                                                        className="text-yellow-500 p-1 w-1/2 rounded-md bg-white cursor-pointer hover:bg-white hover:text-yellow-700 transition delay-150 duration-300"
+                                                    >
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                                        </svg>
+                                                        <div
+                                                            id="tooltip-view"
+                                                            role="tooltip"
+                                                            className="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip dark:bg-gray-700"
+                                                        >
+                                                            Edit
+                                                            <div className="tooltip-arrow" data-popper-arrow></div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div
-                                                data-tooltip-target="tooltip-edit"
-                                                // onClick={() => {
-                                                //     handleEdit(emb.id);
-                                                // }}
-                                                className="relative text-yellow-800 cursor-pointer hover:text-yellow-400 transition delay-150 duration-300"
-                                            >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    className="h-4 w-4"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor"
-                                                >
-                                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                                                </svg>
-                                                <div
-                                                    id="tooltip-edit"
-                                                    role="tooltip"
-                                                    className="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip dark:bg-gray-700"
-                                                >
-                                                    edit
-                                                    <div className="tooltip-arrow" data-popper-arrow></div>
-                                                </div>
-                                            </div>
-                                            
+
                                         </td>
                                     </tr>
                                 )
@@ -156,6 +135,8 @@ const Users = () => {
                 </div>
             </div>
             <ViewMore toggleViewMore={toggleViewMore} setToggleViewMore={setToggleViewMore} />
+            <Add toggleAddUserMdl={toggleAddUserMdl} setToggleAddUserMdl={setToggleAddUserMdl} />
+            <Edit toggleEditUserMdl={toggleEditUserMdl} setToggleEditUserMdl={setToggleEditUserMdl} />
         </div>
     )
 }

@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
 import { validToken } from "../../utils/utils";
+import { BASE_URL } from "../../config/constants";
+
 
 const initialState = {
     countries: [],
@@ -17,17 +19,17 @@ const config = {
 export const addNewCountry = createAsyncThunk('api/country/add', async (country) => {
     console.log("within add country")
     console.log(country)
-    const response = await axios.post("http://localhost:8080/api/country/add", country, config)
+    const response = await axios.post(BASE_URL+"/api/country/add", country, config)
     return response.data
 })
 
 export const fetchCountries = createAsyncThunk('api/country/all', async () => {
-    const response = await axios.get("http://localhost:8080/api/country/all", config)
+    const response = await axios.get(BASE_URL+"/api/country/all", config)
     return response.data
 })
 
 export const getOneCountry = createAsyncThunk('api/getOneCountry', async (id) => {
-    const response = await axios.get("http://localhost:8080/api/country/" + id, config)
+    const response = await axios.get(BASE_URL+"/api/country/" + id, config)
     return response.data
 })
 

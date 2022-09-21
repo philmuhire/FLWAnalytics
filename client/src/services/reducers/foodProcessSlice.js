@@ -17,38 +17,38 @@ const config = {
 export const addNewFoodProcess = createAsyncThunk('api/cropactivityadd', async (data) => {
     console.log("within add food process")
     console.log(data)
-    const response = await axios.post("http://localhost:8080/api/cropactivity/add", data, config)
+    const response = await axios.post(BASE_URL+"/api/cropactivity/add", data, config)
     return response.data
 })
 
 export const fetchNProcesses = createAsyncThunk('api/cropactivity/findsome', async (data) => {
     console.log("within add food process")
     console.log(data)
-    const response = await axios.post("http://localhost:8080/api/cropactivity/findprocesses", data, config)
+    const response = await axios.post(BASE_URL+"/api/cropactivity/findprocesses", data, config)
     return response.data
 })
 export const fetchNProduce = createAsyncThunk('api/cropactivity/findproduce', async () => {
     console.log("within find food produce")
-    const response = await axios.get("http://localhost:8080/api/cropactivity/findproduce", config)
+    const response = await axios.get(BASE_URL+"/api/cropactivity/findproduce", config)
     return response.data
 })
 
 export const fetchNProducePerCrop = createAsyncThunk('api/cropactivity/findproducepercrop', async (data) => {
     console.log("within find food produce per crop")
-    const response = await axios.get("http://localhost:8080/api/cropactivity/findproduce/"+data, config)
+    const response = await axios.get(BASE_URL+"/api/cropactivity/findproduce/"+data, config)
     return response.data
 })
 
 export const fetchlossperprocess = createAsyncThunk('api/cropactivity/loss', async (data) => {
     console.log("within find food produce per crop")
-    const response = await axios.get("http://localhost:8080/api/cropactivity/findloss/"+data, config)
+    const response = await axios.get(BASE_URL+"/api/cropactivity/findloss/"+data, config)
     return response.data
 })
 
 export const deleteFoodProcess = createAsyncThunk('api/cropactivity/deletefp', async (id) => {
     console.log("within find food produce")
     console.log(id);
-    const response = await axios.delete("http://localhost:8080/api/cropactivity/"+id, config)
+    const response = await axios.delete(BASE_URL+"/api/cropactivity/"+id, config)
     return response.data
 })
 
