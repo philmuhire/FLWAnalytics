@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import profile1 from "../../../assets/img/profile-picture-2.jpg"
 import SearchBar from '../../../components/SearchBar';
+import StatusBadge from '../../../components/StatusBadge';
 import Sidebar from '../../../layouts/Sidebar';
 import { fetchUsers, getUserError, getUserStatus, selectAllUsers, setCurrent } from '../../../services/reducers/userSlice';
 import { useEffectOnce } from '../../../utils/utils';
@@ -28,7 +29,7 @@ const Users = () => {
     const handleViewMore = (id) => {
         setToggleViewMore(true)
     }
-    
+
 
     const handleEdit = (user) => {
         dispatch(setCurrent(user))
@@ -40,7 +41,7 @@ const Users = () => {
         <div className='min-h-screen flex flex-row bg-gray-100'>
             <Sidebar currentTab={currentTab} />
             <div className='flex flex-grow flex-col justify-start px-7 py-4 '>
-                <SearchBar />
+                {/* <SearchBar /> */}
                 <div className='mx-2 my-2 '>
                     <div className='flex justify-between'>
                         <h3 className='font-bold text-sm'>Users Overview</h3>
@@ -56,7 +57,7 @@ const Users = () => {
                                     </ul>
                                 </div> */}
                             </span>
-                            <a onClick={()=>{setToggleAddUserMdl(true)}} class="cursor-pointer text-white bg-blue-700 hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-1.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2">
+                            <a onClick={() => { setToggleAddUserMdl(true) }} class="cursor-pointer text-white bg-blue-700 hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-1.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
                                 </svg>
@@ -70,29 +71,25 @@ const Users = () => {
                                 <th className="text-xs py-2 pl-3 font-semibold text-gray-500 text-left">
                                     first Name
                                 </th>
-                                <th className="text-xs py-2 pl-3 font-semibold text-gray-500 text-left">
+                                <th className="text-xs py-2 font-semibold text-gray-500 text-left">
                                     last Name
                                 </th>
-                                <th className="text-xs font-semibold text-gray-500 text-left">
-                                    Email
-                                </th>
-                                <th className="text-xs font-semibold text-gray-500 text-left">
-                                    Role
-                                </th>
-                                <th className="text-xs font-semibold text-gray-500 text-left">
-                                    Country
-                                </th>
-                                <th className="text-xs pr-3 font-semibold text-gray-500 text-right">
-                                    Action
-                                </th>
+                                {
+                                    Array.of("Email", "Role", "Country", "Status", "Action").map((item, index, arr) => (
+                                        <th className={`text-xs font-semibold text-gray-500 text-left ${index + 1 == arr.length && "text-right pr-3"}`}>
+                                            {item}
+                                        </th>
+                                    ))
+                                }
+
                             </tr>
                         </thead>
                         <tbody>
                             {
                                 users?.map(user =>
                                 (
-                                    <tr className="border-t-2  border-gray-300 text-sm text-gray-700">
-                                        <td className="py-1">
+                                    <tr className="border-t-2 border-gray-300 text-sm text-gray-700">
+                                        <td className="">
                                             <img class="w-8 h-8 inline-block rounded-full border-2 border-white dark:border-gray-800" src={profile1} alt="" />
                                             <span className='pl-3'>{user.firstname} </span>
                                         </td>
@@ -100,7 +97,12 @@ const Users = () => {
                                         <td>{user.email}</td>
                                         <td>{user.roles[0].name}</td>
                                         <td>{user.country.name}</td>
-                                        <td className="text-right flex justify-end items-center space-x-3">
+                                        <td>
+                                            {
+                                                <StatusBadge status={user.status} message={user.status ? "ACTIVE" : "INACTIVE"} />
+                                            }
+                                        </td>
+                                        <td className="text-right py-1 flex justify-end items-center space-x-3">
 
                                             <div className='flex justify-end items-end'>
                                                 <div className='bg-gray-300 rounded-md p-1 w-16 h-7 flex space-x-2'>
