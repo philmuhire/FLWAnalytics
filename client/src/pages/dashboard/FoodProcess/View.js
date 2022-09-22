@@ -204,7 +204,7 @@ const View = () => {
                                         </select>
                                     </div>) : ""
                             }
-                            <a onClick={() => { printDiv(tab, "my report") }} class="text-white bg-black hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-1.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2">
+                            <a onClick={() => { printDiv(tab, "food productivity per crop") }} class="text-white bg-black hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-1.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2">
                                 generate report
                             </a>
                             <a onClick={() => { setTogAddFPMdl(true) }} class="text-white bg-blue-700 hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-1.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2">

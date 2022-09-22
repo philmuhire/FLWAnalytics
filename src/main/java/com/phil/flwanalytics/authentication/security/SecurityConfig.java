@@ -2,6 +2,9 @@ package com.phil.flwanalytics.authentication.security;
 
 import com.phil.flwanalytics.authentication.filter.CustomAuthenticationFilter;
 import com.phil.flwanalytics.authentication.filter.CustomAuthorizationFilter;
+import com.phil.flwanalytics.authentication.filter.CustomAuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +65,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             c.configurationSource(cs);
         });
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests();
-        http.authorizeRequests().antMatchers("/api/login/**").permitAll();
+        http.authorizeRequests().antMatchers("/api/login/**").permitAll().and().formLogin()
+                .failureHandler(authenticationFailureHandler());
         http.authorizeRequests().antMatchers("/**").permitAll();
         http.authorizeRequests().antMatchers("/api/login/**", "/api/token/refresh/**").permitAll();
         http.authorizeRequests().antMatchers("/api/cropactivity/all").permitAll();
@@ -72,6 +76,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         // add it before any filter, and tell it what its for
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+    }
+
+    @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler() {
+        return new CustomAuthenticationFailureHandler();
     }
 
     @Bean

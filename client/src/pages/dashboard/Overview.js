@@ -124,7 +124,7 @@ const Overview = () => {
                                     </ul>
                                 </div>
                             </span> */}
-                            <button type="button"
+                            {/* <button type="button"
                                 class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-1.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor" stroke-width="2">
@@ -132,7 +132,7 @@ const Overview = () => {
                                         d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                 </svg>
                                 Download
-                            </button>
+                            </button> */}
                         </div>
                     </div>
                 </div>
@@ -141,7 +141,7 @@ const Overview = () => {
                         <div className='grid grid-cols-2 space-x-4'>
                             <div className='bg-blue-600 px-8 py-2 text-gray-300 rounded-lgsshadow-lg'>
                                 <h6 className='text-sm'>Welcome Back</h6>
-                                <h1 className='font-bold text-lg'>Murenzi jack</h1>
+                                <h1 className='font-bold text-lg capitalize'>{auth? auth.username.substring(0, auth.username.indexOf("@")):""}</h1>
                                 {/* <a className='text-xs my-2 inline-block'>complete your today's attendance
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" viewBox="0 0 20 20" fill="currentColor">
                                         <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -174,7 +174,7 @@ const Overview = () => {
                                     className='bg-yellow-500 px-8 py-2 text-gray-300 rounded-lg shadow flex justify-around items-center space-x-2'>
                                     <div>
                                         <h6 className='text-xs'>Total Records</h6>
-                                        <h1 className='font-bold text-sm pt-3'>312423 insights</h1>
+                                        <h1 className='font-bold text-sm pt-3'>872 insights</h1>
                                     </div>
                                     <div className='w-9 h-9 rounded-full border-2 border-white p-1'>
                                         <div className='w-6 h-6 rounded-full border-2 border-green-600 p-1'>
@@ -202,7 +202,7 @@ const Overview = () => {
                                     className='bg-green-400 px-8 py-2 text-gray-300 rounded-lg shadow flex justify-around items-center space-x-2'>
                                     <div>
                                         <h6 className='text-xs'>Total Countries</h6>
-                                        <h1 className='font-bold text-sm pt-3'>20 countries</h1>
+                                        <h1 className='font-bold text-sm pt-3'>194 countries</h1>
                                     </div>
                                     <div className='w-9 h-9 rounded-full border-2 border-red-600 p-1'>
                                         <div className='w-6 h-6 rounded-full border-2 border-black p-1'>

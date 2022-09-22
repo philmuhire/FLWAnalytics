@@ -8,15 +8,23 @@ const initialState = {
     error: null
 }
 
-export const login = createAsyncThunk('auth/login',  async (loginState) => {
+export const login = createAsyncThunk('auth/login',  async (loginState, {rejectWithValue}) => {
     console.log("within login")
     console.log(loginState)
-    const response = await axios.post(BASE_URL+"/api/login", null, { params: {...loginState} }, {headers: {
+    let response;
+    try {
+        response = await axios.post(BASE_URL+"/api/login", null, { params: {...loginState} }, {headers: {
             "Accept": "application/x-www-form-urlencoded",
             "Content-Type": "application/x-www-form-urlencoded",
             "Access-Control-Allow-Origin": "*"
         }})
-    return response.data
+        return response.data
+    } catch (error) {
+        console.log(error)
+        return rejectWithValue(error.response.data)
+    }
+    
+    
 })
 
 export const authSlice = createSlice({
@@ -41,7 +49,8 @@ export const authSlice = createSlice({
             })
             .addCase(login.rejected, (state, action) => {
                 state.status = "failed"
-                state.error = action.error.message
+                console.log("ds"+action.payload)
+                state.error = action.payload.error
                 console.log(state.error)
 
             })

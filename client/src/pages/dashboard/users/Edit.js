@@ -137,7 +137,7 @@ const Edit = ({ toggleEditUserMdl, setToggleEditUserMdl }) => {
                             <select name="status" value={userState.status} onChange={(e) => { handleChange(e) }}
                                 className="block text-xs py-2.5 px-0 w-full text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                                 placeholder=" " required="" autoComplete='off' >
-                                <option className='text-xs' value="">Select Status</option>
+                                <option className='text-xs' value="">Select Status</option> 
                                 <option className='text-xs' value="true">Active</option>
                                 <option className='text-xs' value="false">Inactive</option>
                             </select>

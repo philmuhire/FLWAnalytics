@@ -26,22 +26,24 @@ public class FoodProcessCtrl {
     private final FoodProcessRepo foodProcessRepo;
 
     @GetMapping("/all")
-    public ResponseEntity<List<FoodProcess>> getFoodProcess(){
+    public ResponseEntity<List<FoodProcess>> getFoodProcess() {
         return ResponseEntity.ok().body((foodProcessService.getAll()));
     }
+
     @GetMapping("/summary")
-    public ResponseEntity<List<?>> getCropSummary(){
+    public ResponseEntity<List<?>> getCropSummary() {
         return ResponseEntity.ok().body((foodProcessRepo.summatePercentagePerYearAndcrop()));
     }
 
-    @PreAuthorize("hasRole('ROLE_SYS_ADMIN') or hasRole('ROLE_CTR_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_SYS_ADMIN') or hasRole('ROLE_CTR_ADMIN') or hasRole('ROLE_CTR_USER')")
     @PostMapping("/add")
-    public ResponseEntity<?>saveFoodProcess(@RequestBody FoodProcessPayload cap) {
+    public ResponseEntity<?> saveFoodProcess(@RequestBody FoodProcessPayload cap) {
         FoodProcess foodProcess;
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/crop activity/save").toUriString());
+        URI uri = URI.create(
+                ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/crop activity/save").toUriString());
         try {
             foodProcessService.addCropActivity(cap);
-        } catch (Exception exception){
+        } catch (Exception exception) {
             return (ResponseEntity<?>) ResponseEntity.badRequest().header(exception.getMessage());
         }
         return ResponseEntity.created(uri).body("object created");
@@ -49,65 +51,69 @@ public class FoodProcessCtrl {
 
     @PreAuthorize("hasRole('ROLE_SYS_ADMIN') or hasRole('ROLE_CTR_ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?>deleteFPById(@PathVariable Long id) {
-        try{
+    public ResponseEntity<?> deleteFPById(@PathVariable Long id) {
+        try {
             foodProcessRepo.deleteById(id);
             return ResponseEntity.ok().body("deleted");
-        } catch (Exception e){
-            return  ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-//    @PreAuthorize("hasRole('ROLE_SYS_ADMIN') or hasRole('ROLE_CTR_ADMIN')")
-//    @PostMapping("/edit")
-//    public ResponseEntity<?>editFoodProcess(@RequestBody FoodProcessPayload cap) {
-//        FoodProcess foodProcess;
-//        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/crop activity/save").toUriString());
-//        try {
-//
-//            foodProcess = foodProcessService.addCropActivity(cap);
-//        } catch (Exception exception){
-//            return (ResponseEntity<?>) ResponseEntity.badRequest().header(exception.getMessage());
-//        }
-//        return ResponseEntity.created(uri).body(foodProcess);
-//    }
+    // @PreAuthorize("hasRole('ROLE_SYS_ADMIN') or hasRole('ROLE_CTR_ADMIN')")
+    // @PostMapping("/edit")
+    // public ResponseEntity<?>editFoodProcess(@RequestBody FoodProcessPayload cap)
+    // {
+    // FoodProcess foodProcess;
+    // URI uri =
+    // URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/crop
+    // activity/save").toUriString());
+    // try {
+    //
+    // foodProcess = foodProcessService.addCropActivity(cap);
+    // } catch (Exception exception){
+    // return (ResponseEntity<?>)
+    // ResponseEntity.badRequest().header(exception.getMessage());
+    // }
+    // return ResponseEntity.created(uri).body(foodProcess);
+    // }
 
-    @PreAuthorize("hasRole('ROLE_SYS_ADMIN') or hasRole('ROLE_CTR_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_SYS_ADMIN') or hasRole('ROLE_CTR_ADMIN') or hasRole('ROLE_CTR_USER')")
     @PostMapping("/findprocesses")
-    public ResponseEntity<List<FoodProcess>>getNFoodProcesses(@RequestBody PageRequestPayload prp) {
-        return ResponseEntity.ok().body((foodProcessService.findNActivities(prp.getPage(), prp.getSize() )));
+    public ResponseEntity<List<FoodProcess>> getNFoodProcesses(@RequestBody PageRequestPayload prp) {
+        return ResponseEntity.ok().body((foodProcessService.findNActivities(prp.getPage(), prp.getSize())));
     }
 
     @PreAuthorize("hasRole('ROLE_SYS_ADMIN') or hasRole('ROLE_CTR_ADMIN')")
     @PostMapping("/{id}")
-    public ResponseEntity<?>getFoodProcess(@PathVariable Long id) {
+    public ResponseEntity<?> getFoodProcess(@PathVariable Long id) {
         FoodProcess foodProcess;
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/crop activity/getone").toUriString());
+        URI uri = URI.create(
+                ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/crop activity/getone").toUriString());
         try {
             foodProcess = foodProcessRepo.getById(id);
 
-        } catch (Exception exception){
+        } catch (Exception exception) {
             return (ResponseEntity<?>) ResponseEntity.badRequest().header(exception.getMessage());
         }
         return ResponseEntity.ok(foodProcess);
     }
 
-    @PreAuthorize("hasRole('ROLE_SYS_ADMIN') or hasRole('ROLE_CTR_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_SYS_ADMIN') or hasRole('ROLE_CTR_ADMIN') or hasRole('ROLE_CTR_USER')")
     @GetMapping("/findproduce")
-    public ResponseEntity<List<FoodProduce>>getNFoodProcesses() {
-        return ResponseEntity.ok().body((foodProcessRepo.getProduceOfAllYears() ));
+    public ResponseEntity<List<FoodProduce>> getNFoodProcesses() {
+        return ResponseEntity.ok().body((foodProcessRepo.getProduceOfAllYears()));
     }
 
-    @PreAuthorize("hasRole('ROLE_SYS_ADMIN') or hasRole('ROLE_CTR_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_SYS_ADMIN') or hasRole('ROLE_CTR_ADMIN') or hasRole('ROLE_CTR_USER')")
     @GetMapping("/findproduce/{id}")
-    public ResponseEntity<List<FoodProduce>>getNFoodProcesses(@PathVariable Long id) {
-        return ResponseEntity.ok().body((foodProcessRepo.getProducePerCropOfAllYears(id) ));
+    public ResponseEntity<List<FoodProduce>> getNFoodProcesses(@PathVariable Long id) {
+        return ResponseEntity.ok().body((foodProcessRepo.getProducePerCropOfAllYears(id)));
     }
 
-    @PreAuthorize("hasRole('ROLE_SYS_ADMIN') or hasRole('ROLE_CTR_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_SYS_ADMIN') or hasRole('ROLE_CTR_ADMIN') or hasRole('ROLE_CTR_USER')")
     @GetMapping("/findloss/{id}")
-    public ResponseEntity<List<FoodProcess>>getNFoodProcessesPerProcess(@PathVariable Long id) {
-        return ResponseEntity.ok().body(foodProcessService.findNProcessPerProcess(id) );
+    public ResponseEntity<List<FoodProcess>> getNFoodProcessesPerProcess(@PathVariable Long id) {
+        return ResponseEntity.ok().body(foodProcessService.findNProcessPerProcess(id));
     }
 }
-
